@@ -91,7 +91,6 @@ export function createProductCardElement(productData) {
   econCheckbox.setAttribute("type", "checkbox");
   econCheckbox.checked = true;
   econCheckbox.classList.add("form-check-input", "m-0", "product-quality-checkbox");
-  econCheckbox.dataset.ref = "econ-checkbox";
 
   econHeader.appendChild(econLabel);
   econHeader.appendChild(econCheckbox);
@@ -136,7 +135,6 @@ export function createProductCardElement(productData) {
   highCheckbox.setAttribute("type", "checkbox");
   highCheckbox.checked = true;
   highCheckbox.classList.add("form-check-input", "m-0", "product-quality-checkbox");
-  highCheckbox.dataset.ref = "high-checkbox";
 
   highHeader.appendChild(highLabel);
   highHeader.appendChild(highCheckbox);

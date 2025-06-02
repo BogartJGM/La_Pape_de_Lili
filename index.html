@@ -183,26 +183,6 @@
                   </tr>
                 </thead>
                 <tbody id="products-body">
-                  <tr class="small">
-                    <td class="align-middle p-0">
-                      <span class="d-inline-block text-muted cursor-grab fs-5" title="Arrastrar">&#x2630;</span>
-                    </td>
-                    <td class="align-middle p-0">
-                      <button class="btn btn-link btn-sm text-danger fs-5" title="Quitar producto" type="button" onclick="eliminarFila(this)">
-                        <i class="bi bi-x-lg"></i>
-                      </button>
-                    </td>
-                    <td>
-                      <input class="form-control form-control-sm text-center" max="100" min="0" type="number" value="1" inputmode="numeric" autocomplete="off" placeholder="Cantidad" />
-                    </td>
-                    <td class="ps-2 text-start text-truncate custom-max-width custom-break-word" title="Nombre producto">Nombre producto</td>
-                    <td>Nombre marca económica</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>Nombre marca alta</td>
-                    <td>2</td>
-                    <td>2</td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -225,54 +205,6 @@
             </div>
           </div>
           <div id="available-products" class="bg-white mb-1 p-2 overflow-y-auto rounded-4 shadow-sm flex-grow-1">
-            <div class="card border border-light-subtle rounded-4 shadow-sm mb-2">
-              <div class="card-body p-2">
-                <div class="input-group input-group-sm mb-2">
-                  <button type="button" class="btn btn-outline-success rounded-start-3" title="Agregar">
-                    <i class="bi bi-plus-lg"></i>
-                  </button>
-                  <button type="button" class="btn btn-outline-danger" title="Eliminar">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                  <input type="number" min="0" value="0" class="form-control rounded-end-3 text-center" aria-label="Cantidad" />
-                </div>
-                <span class="form-label small fw-semibold mb-2 d-block text-break text-wrap w-100">Nombre de Producto</span>
-                <div class="row g-2">
-                  <div class="col-6">
-                    <div class="card border-0 bg-light-subtle h-100">
-                      <div class="card-body p-2">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                          <small class="fw-bold text-success">ECON</small>
-                          <input type="checkbox" class="form-check-input m-0" aria-label="Seleccionar económica" checked />
-                        </div>
-                        <div>
-                          <small class="fw-semibold text-dark">$12.34</small>
-                          <!-- Precio de la calidad económica -->
-                          <div class="small text-muted text-break text-wrap w-100">Marca calidad económica</div>
-                          <!-- Nombre de la marca de calidad económica-->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="card border-0 bg-light-subtle h-100">
-                      <div class="card-body p-2">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                          <small class="fw-bold text-primary">ALTA</small>
-                          <input type="checkbox" class="form-check-input m-0" aria-label="Seleccionar alta" checked />
-                        </div>
-                        <div>
-                          <small class="fw-semibold text-dark">$34.56</small>
-                          <!-- Precio de la calidad alta -->
-                          <div class="small text-muted text-break text-wrap w-100">Marca calidad alta</div>
-                          <!-- Nombre de la marca de calidad alta-->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </aside>
       </div>

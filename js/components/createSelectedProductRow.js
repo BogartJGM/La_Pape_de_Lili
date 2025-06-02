@@ -19,10 +19,10 @@ export function createSelectedProductRow(productData) {
   trProduct.dataset.productName = productData.productName;
   trProduct.dataset.brandEcon = productData.economicQualityName;
   trProduct.dataset.priceEcon = productData.economicQualityPrice.toFixed(2);
-  trProduct.dataset.amountEcon = String((productData.quantity * Number(productData.economicQualityPrice)).toFixed(2));
+  trProduct.dataset.amountEcon = (productData.quantity * Number(productData.economicQualityPrice)).toFixed(2);
   trProduct.dataset.brandhigh = productData.highQualityName;
-  trProduct.dataset.priceHigh = String(Number(productData.highQualityPrice).toFixed(2));
-  trProduct.dataset.amountHigh = String(productData.quantity * productData.highQualityPrice.toFixed(2));
+  trProduct.dataset.priceHigh = Number(productData.highQualityPrice).toFixed(2);
+  trProduct.dataset.amountHigh = (productData.quantity * Number(productData.highQualityPrice)).toFixed(2);
 
   // 1. Manejador de arrastre
   const tdDrag = document.createElement("td");
@@ -48,8 +48,9 @@ export function createSelectedProductRow(productData) {
   btnRemove.appendChild(iconRemove);
   tdRemove.appendChild(btnRemove);
 
-  // 3. Input de cantidad
+  // 3. Botón de cantidad
   const tdButtonQty = document.createElement("td");
+  tdButtonQty.className = "text-muted";
   const buttonQty = document.createElement("button");
   buttonQty.className = "form-control form-control-sm text-center";
   buttonQty.type = "button";
@@ -59,16 +60,18 @@ export function createSelectedProductRow(productData) {
 
   // 4. Nombre del producto
   const tdProductName = document.createElement("td");
-  tdProductName.className = "ps-2 text-start text-truncate custom-max-width custom-break-word";
+  tdProductName.className = "ps-2 text-start text-truncate custom-max-width custom-break-word fw-semibold";
   tdProductName.title = productData.productName;
   tdProductName.textContent = productData.productName;
 
   // 5. Marca económica
   const tdBrandEcon = document.createElement("td");
+  tdBrandEcon.className = "text-muted";
   tdBrandEcon.textContent = productData.economicQualityName;
 
   // 6. Precio económico
   const tdPriceEcon = document.createElement("td");
+  tdPriceEcon.className = "text-muted";
   tdPriceEcon.textContent = `$${Number(productData.economicQualityPrice).toFixed(2)}`;
 
   // 7. Importe económico (importe: cantidad * precio económico, solo si está seleccionada la calidad económica)
@@ -78,10 +81,12 @@ export function createSelectedProductRow(productData) {
 
   // 8. Marca alta
   const tdBrandHigh = document.createElement("td");
+  tdBrandHigh.className = "text-muted";
   tdBrandHigh.textContent = productData.highQualityName;
 
   // 9. Precio alto
   const tdPriceHigh = document.createElement("td");
+  tdPriceHigh.className = "text-muted";
   tdPriceHigh.textContent = `$${Number(productData.highQualityPrice).toFixed(2)}`;
 
   // 10. Importe alto (importe: cantidad * precio alta, solo si está seleccionada la calidad alta)
