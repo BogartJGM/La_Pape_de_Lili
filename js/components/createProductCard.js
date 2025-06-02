@@ -1,5 +1,6 @@
 import { createSelectedProductRow } from "./createSelectedProductRow.js";
 import { insertElementIntoContainer } from "../helpers/insertElementIntoContainer.js";
+import { updateTotals } from "../helpers/updateTotals.js";
 
 /**
  * Crea y devuelve un elemento HTML <div> que representa una tarjeta visual de producto,
@@ -160,10 +161,10 @@ export function createProductCardElement(productData) {
       highQualityPrice: Number(highPrice.dataset.price),
       quantity: parseInt(quantityInput.value, 10),
       econCheckboxChecked: econCheckbox.checked,
-      highCheckboxChecked: highCheckbox.checked
-    }
+      highCheckboxChecked: highCheckbox.checked,
+    };
 
-    addProductToSelectedProducts(actualProductData)
+    addProductToSelectedProducts(actualProductData);
   });
   deleteButton.addEventListener("click", () => {
     cardDiv.remove();
@@ -195,4 +196,8 @@ function addProductToSelectedProducts(productData) {
   const selectedProductRow = createSelectedProductRow(productData);
 
   insertElementIntoContainer(selectedProductRow, document.getElementById("products-body"));
+  updateTotals(
+    productData.economicQualityPrice * productData.quantity,
+    productData.highQualityPrice * productData.quantity
+  );
 }

@@ -65,8 +65,8 @@
                   <div class="card-body d-flex flex-column justify-content-center">
                     <div class="fw-semibold mb-1 small">Costo total</div>
                     <div class="d-flex justify-content-around small">
-                      <span class="text-success" id="total-cost-economical">$XX.XX</span>
-                      <span class="text-primary" id="total-cost-high">$YY.YY</span>
+                      <span class="text-success" id="total-cost-economical" data-total-cost-eco="0.00">$00.00</span>
+                      <span class="text-primary" id="total-cost-high" data-total-cost-high="0.00">$00.00</span>
                     </div>
                   </div>
                 </div>
@@ -76,7 +76,7 @@
                   <div class="card-body d-flex flex-column justify-content-center">
                     <div class="fw-semibold mb-1 small">Descuento</div>
                     <div class="d-flex justify-content-around small">
-                      <button id="discount-button" class="btn btn-outline-dark btn-sm border-0 p-0 px-2" type="button" data-bs-toggle="modal" data-bs-target="#discountModal">10%</button>
+                      <button id="discount-button" class="btn btn-outline-dark btn-sm border-0 p-0 px-2" type="button" data-bs-toggle="modal" data-bs-target="#discountModal" data-discount="10">10%</button>
                     </div>
                   </div>
                 </div>
@@ -86,7 +86,7 @@
                   <div class="card-body d-flex flex-column justify-content-center">
                     <div class="fw-semibold mb-1 small"><span class="badge text-bg-success">CE con descuento</span></div>
                     <div class="d-flex justify-content-around small">
-                      <span class="text-success" id="discounted-total-economical">$XX.XX</span>
+                      <span class="text-success" id="discounted-total-economical" data-discounted-total-eco="0.00">$00.00</span>
                     </div>
                   </div>
                 </div>
@@ -96,7 +96,7 @@
                   <div class="card-body d-flex flex-column justify-content-center">
                     <div class="fw-semibold mb-1 small"><span class="badge text-bg-primary">CA con descuento</span></div>
                     <div class="d-flex justify-content-around small">
-                      <span class="text-primary" id="discounted-total-high">$YY.YY</span>
+                      <span class="text-primary" id="discounted-total-high" data-discounted-total-high="0.00">$00.00</span>
                     </div>
                   </div>
                 </div>
@@ -106,8 +106,8 @@
                   <div class="card-body d-flex flex-column justify-content-center">
                     <div class="fw-semibold mb-1 small">Aparta con</div>
                     <div class="d-flex justify-content-around small">
-                      <span class="text-success" id="deposit-economical">$XX.XX</span>
-                      <span class="text-primary" id="deposit-high">$YY.YY</span>
+                      <span class="text-success" id="deposit-economical" data-deposit-economical="0.00">$00.00</span>
+                      <span class="text-primary" id="deposit-high" data-deposit-high="0.00">$00.00</span>
                     </div>
                   </div>
                 </div>
@@ -211,96 +211,96 @@
     </div>
 
     <!-- Modal para cambiar cantidad de producto -->
-    <div class="modal fade" id="changeQntyModal" tabindex="-1" aria-labelledby="changeQntyModalLabel" aria-hidden="true" data-ref="modal-cantidad">
+    <div class="modal fade" id="changeQntyModal" tabindex="-1" data-ref="modal-cantidad">
       <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
-          <div class="modal-header border-0 pb-0">
-            <h6 class="modal-title fw-semibold" id="changeQntyModalLabel">
-              <i class="bi bi-123 me-1 text-primary"></i>Cambiar cantidad
-            </h6>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
+        <div class="modal-header border-0 pb-0">
+        <h6 class="modal-title fw-semibold" id="changeQntyModalLabel">
+          <i class="bi bi-123 me-1 text-primary"></i>Cambiar cantidad
+        </h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body pt-2 pb-3 px-3">
+        <form id="change-qnty-form" autocomplete="off">
+          <div class="mb-2 text-center">
+          <label for="change-qnty-input" class="form-label small fw-semibold w-100 text-center">Nueva cantidad</label>
+          <input class="form-control form-control-sm rounded-3 text-center" id="change-qnty-input" placeholder="Ej. 5" type="number" min="1" max="999" required />
           </div>
-          <div class="modal-body pt-2 pb-3 px-3">
-            <form id="change-qnty-form" autocomplete="off">
-              <div class="mb-2 text-center">
-                <label for="change-qnty-input" class="form-label small fw-semibold w-100 text-center">Nueva cantidad</label>
-                <input class="form-control form-control-sm rounded-3 text-center" id="change-qnty-input" placeholder="Ej. 5" type="number" min="1" max="999" required />
-              </div>
-              <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-sm btn-outline-primary rounded-3 px-3" data-bs-dismiss="modal">Aceptar</button>
-              </div>
-            </form>
+          <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-sm btn-outline-primary rounded-3 px-3" data-bs-dismiss="modal">Aceptar</button>
           </div>
+        </form>
         </div>
       </div>
+      </div>
     </div>
-    <div class="modal fade" id="discountModal" tabindex="-1" aria-labelledby="discountModalLabel" aria-hidden="true" data-ref="modal-descuento">
+    <div class="modal fade" id="discountModal" tabindex="-1" data-ref="modal-descuento">
       <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
-          <div class="modal-header border-0 pb-0">
-            <h6 class="modal-title fw-semibold" id="discountModalLabel"><i class="bi bi-percent me-1 text-primary"></i>Modificar descuento</h6>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-          <div class="modal-body pt-2 pb-3 px-3">
-            <form id="discount-form" autocomplete="off">
-              <div class="mb-2 text-center">
-                <label for="discount-input" class="form-label small fw-semibold w-100 text-center">Nuevo descuento (%)</label>
-                <input class="form-control form-control-sm rounded-3 text-center" id="discount-input" placeholder="Ej. 15" type="number" min="0" max="100" required />
-              </div>
-              <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-sm btn-outline-primary rounded-3 px-3" data-bs-dismiss="modal">Aceptar</button>
-              </div>
-            </form>
-          </div>
+      <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
+        <div class="modal-header border-0 pb-0">
+        <h6 class="modal-title fw-semibold"><i class="bi bi-percent me-1 text-primary"></i>Modificar descuento</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
+        <div class="modal-body pt-2 pb-3 px-3">
+        <form id="discount-form" autocomplete="off">
+          <div class="mb-2 text-center">
+          <label for="discount-input" class="form-label small fw-semibold w-100 text-center">Nuevo descuento (%)</label>
+          <input class="form-control form-control-sm rounded-3 text-center" id="discount-input" placeholder="Ej. 15" type="number" min="0" max="100" required />
+          </div>
+          <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-sm btn-outline-primary rounded-3 px-3" data-bs-dismiss="modal">Aceptar</button>
+          </div>
+        </form>
+        </div>
+      </div>
       </div>
     </div>
     <!-- Modal para crear nuevo producto -->
-    <div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true" data-ref="modal-nuevo-producto">
+    <div class="modal fade" id="newProductModal" tabindex="-1" data-ref="modal-nuevo-producto">
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
-          <div class="modal-header border-0 pb-0">
-            <h6 class="modal-title fw-semibold" id="newProductModalLabel"><i class="bi bi-cookie me-1 text-primary"></i>Crear nuevo producto</h6>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-          <div class="modal-body pt-2 pb-3 px-3">
-            <form id="new-product-form" autocomplete="off">
-              <div class="mb-2 text-center">
-                <label for="product-name" class="form-label small fw-semibold w-100 text-center">Nombre de producto</label>
-                <input type="text" class="form-control form-control-sm rounded-3 text-center" id="product-name" placeholder="Ej. Cuaderno profesional" value="Cuaderno Prfesional" required />
-              </div>
-              <div class="border rounded-3 p-2 mb-2 bg-light-subtle">
-                <div class="fw-semibold small text-success mb-2"><i class="bi bi-cash-coin me-1"></i>Calidad Económica</div>
-                <div class="row g-2">
-                  <div class="col-6">
-                    <label for="eco-name" class="form-label small fw-semibold">Nombre calidad Económica</label>
-                    <input type="text" class="form-control form-control-sm rounded-3" id="eco-name" placeholder="Ej. Scribe" value="Scribe" required />
-                  </div>
-                  <div class="col-6">
-                    <label for="eco-price" class="form-label small fw-semibold">Precio calidad Económica</label>
-                    <input type="number" min="0" step="0.01" class="form-control form-control-sm rounded-3" id="eco-price" placeholder="Ej. 12.50" value="12.50" required />
-                  </div>
-                </div>
-              </div>
-              <div class="border rounded-3 p-2 mb-2 bg-light-subtle">
-                <div class="fw-semibold small text-primary mb-2"><i class="bi bi-gem me-1"></i>Calidad Alta</div>
-                <div class="row g-2">
-                  <div class="col-6">
-                    <label for="high-name" class="form-label small fw-semibold">Nombre calidad Alta</label>
-                    <input type="text" class="form-control form-control-sm rounded-3" id="high-name" placeholder="Ej. Norma" value="Norma" required />
-                  </div>
-                  <div class="col-6">
-                    <label for="high-price" class="form-label small fw-semibold">Precio calidad Alta</label>
-                    <input type="number" min="0" step="0.01" class="form-control form-control-sm rounded-3" id="high-price" placeholder="Ej. 18.00" value="18.00" required />
-                  </div>
-                </div>
-              </div>
-              <div class="d-flex justify-content-end">
-                <button id="create-product-btn" type="submit" class="btn btn-sm btn-outline-primary rounded-3 px-3">Crear</button>
-              </div>
-            </form>
-          </div>
+      <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
+        <div class="modal-header border-0 pb-0">
+        <h6 class="modal-title fw-semibold"><i class="bi bi-cookie me-1 text-primary"></i>Crear nuevo producto</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
+        <div class="modal-body pt-2 pb-3 px-3">
+        <form id="new-product-form" autocomplete="off">
+          <div class="mb-2 text-center">
+          <label for="product-name" class="form-label small fw-semibold w-100 text-center">Nombre de producto</label>
+          <input type="text" class="form-control form-control-sm rounded-3 text-center" id="product-name" placeholder="Ej. Cuaderno profesional" value="Cuaderno Prfesional" required />
+          </div>
+          <div class="border rounded-3 p-2 mb-2 bg-light-subtle">
+          <div class="fw-semibold small text-success mb-2"><i class="bi bi-cash-coin me-1"></i>Calidad Económica</div>
+          <div class="row g-2">
+            <div class="col-6">
+            <label for="eco-name" class="form-label small fw-semibold">Nombre calidad Económica</label>
+            <input type="text" class="form-control form-control-sm rounded-3" id="eco-name" placeholder="Ej. Scribe" value="Scribe" required />
+            </div>
+            <div class="col-6">
+            <label for="eco-price" class="form-label small fw-semibold">Precio calidad Económica</label>
+            <input type="number" min="0" step="0.01" class="form-control form-control-sm rounded-3" id="eco-price" placeholder="Ej. 12.50" value="12.50" required />
+            </div>
+          </div>
+          </div>
+          <div class="border rounded-3 p-2 mb-2 bg-light-subtle">
+          <div class="fw-semibold small text-primary mb-2"><i class="bi bi-gem me-1"></i>Calidad Alta</div>
+          <div class="row g-2">
+            <div class="col-6">
+            <label for="high-name" class="form-label small fw-semibold">Nombre calidad Alta</label>
+            <input type="text" class="form-control form-control-sm rounded-3" id="high-name" placeholder="Ej. Norma" value="Norma" required />
+            </div>
+            <div class="col-6">
+            <label for="high-price" class="form-label small fw-semibold">Precio calidad Alta</label>
+            <input type="number" min="0" step="0.01" class="form-control form-control-sm rounded-3" id="high-price" placeholder="Ej. 18.00" value="18.00" required />
+            </div>
+          </div>
+          </div>
+          <div class="d-flex justify-content-end">
+          <button id="create-product-btn" type="submit" class="btn btn-sm btn-outline-primary rounded-3 px-3">Crear</button>
+          </div>
+        </form>
+        </div>
+      </div>
       </div>
     </div>
     <!-- Bootstrap -->

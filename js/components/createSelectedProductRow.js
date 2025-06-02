@@ -1,3 +1,6 @@
+import { subtractFromTotals } from "../helpers/updateTotals.js";
+import { updateTotalsOnQuantityChange } from "../helpers/updateTotals.js";
+
 /**
  * Crea una fila <tr> con los datos del producto seleccionado.
  * @param {Object} productData - Objeto con los datos del producto.
@@ -41,6 +44,14 @@ export function createSelectedProductRow(productData) {
   btnRemove.title = "Quitar producto";
   btnRemove.type = "button";
   btnRemove.addEventListener("click", function () {
+    // Obtener los importes a restar desde los datasets de la fila
+    const amountEcon = Number(trProduct.dataset.amountEcon) || 0;
+    const amountHigh = Number(trProduct.dataset.amountHigh) || 0;
+
+    // Actualizar los totales
+    subtractFromTotals(amountEcon, amountHigh);
+
+    // Eliminar la fila
     trProduct.remove();
   });
   const iconRemove = document.createElement("i");
@@ -67,14 +78,22 @@ export function createSelectedProductRow(productData) {
     const modalInput = document.getElementById("change-qnty-input");
     const newQuantity = Number(modalInput.value);
     if (newQuantity > 0) {
+      const prevEconAmount = Number(trProduct.dataset.amountEcon) || 0;
+      const prevHighAmount = Number(trProduct.dataset.amountHigh) || 0;
+      const newEconAmount = newQuantity * Number(productData.economicQualityPrice);
+      const newHighAmount = newQuantity * Number(productData.highQualityPrice);
+
+      // Actualizar datasets y celdas
       trProduct.dataset.quantity = newQuantity;
-      trProduct.dataset.amountEcon = (newQuantity * Number(productData.economicQualityPrice)).toFixed(2);
-      trProduct.dataset.amountHigh = (newQuantity * Number(productData.highQualityPrice)).toFixed(2);
+      trProduct.dataset.amountEcon = newEconAmount.toFixed(2);
+      trProduct.dataset.amountHigh = newHighAmount.toFixed(2);
       buttonQty.textContent = newQuantity;
-      tdAmountEcon.textContent = `$${(newQuantity * Number(productData.economicQualityPrice)).toFixed(2)}`;
-      tdAmountHigh.textContent = `$${(newQuantity * Number(productData.highQualityPrice)).toFixed(2)}`;
+      tdAmountEcon.textContent = `$${newEconAmount.toFixed(2)}`;
+      tdAmountHigh.textContent = `$${newHighAmount.toFixed(2)}`;
+
+      // Actualizar totales
+      updateTotalsOnQuantityChange(prevEconAmount, newEconAmount, prevHighAmount, newHighAmount);
     }
-    // Remover el listener después de ejecutarse para evitar afectar otras filas
     document.getElementById("changeQntyModal").removeEventListener("hide.bs.modal", handleHideModal);
   };
 
