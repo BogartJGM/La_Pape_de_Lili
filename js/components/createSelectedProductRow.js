@@ -55,6 +55,40 @@ export function createSelectedProductRow(productData) {
   buttonQty.className = "form-control form-control-sm text-center";
   buttonQty.type = "button";
   buttonQty.textContent = productData.quantity || 1;
+  buttonQty.dataset.bsToggle = "modal";
+  buttonQty.dataset.bsTarget = "#changeQntyModal";
+  document.getElementById("changeQntyModal").addEventListener("show.bs.modal", () => {
+    // Al abrir el modal, establecer el valor del input con la cantidad actual
+    const modalInput = document.getElementById("change-qnty-input");
+    modalInput.value = Number(buttonQty.textContent);
+  });
+  // Usar una función para manejar el evento solo para este buttonQty
+  const handleHideModal = () => {
+    const modalInput = document.getElementById("change-qnty-input");
+    const newQuantity = Number(modalInput.value);
+    if (newQuantity > 0) {
+      trProduct.dataset.quantity = newQuantity;
+      trProduct.dataset.amountEcon = (newQuantity * Number(productData.economicQualityPrice)).toFixed(2);
+      trProduct.dataset.amountHigh = (newQuantity * Number(productData.highQualityPrice)).toFixed(2);
+      buttonQty.textContent = newQuantity;
+      tdAmountEcon.textContent = `$${(newQuantity * Number(productData.economicQualityPrice)).toFixed(2)}`;
+      tdAmountHigh.textContent = `$${(newQuantity * Number(productData.highQualityPrice)).toFixed(2)}`;
+    }
+    // Remover el listener después de ejecutarse para evitar afectar otras filas
+    document.getElementById("changeQntyModal").removeEventListener("hide.bs.modal", handleHideModal);
+  };
+
+  buttonQty.addEventListener("click", () => {
+    // Al abrir el modal, establecer el valor del input con la cantidad actual
+    const modalInput = document.getElementById("change-qnty-input");
+    modalInput.value = Number(buttonQty.textContent);
+
+    // Agregar el listener solo cuando se abre el modal para este botón
+    document.getElementById("changeQntyModal").addEventListener("hide.bs.modal", handleHideModal);
+  });
+  document.getElementById("change-qnty-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+  });
 
   tdButtonQty.appendChild(buttonQty);
 
