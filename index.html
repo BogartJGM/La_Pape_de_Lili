@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>La Pape de Lili - Cotizaciones de Listas de útiles</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/bootstrap-overrides.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="bg-light">
+    <div class="container-fluid p-2 custom-full-height">
+      <div class="row h-100 gx-0">
+        <main class="col-9 d-flex flex-column custom-full-size">
+          <div class="accordion bg-white mb-1 p-2 rounded-4 shadow-sm flex-shrink-0">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button p-2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-personal-data">
+                  <span class="fw-semibold small">Datos personales</span>
+                </button>
+              </h2>
+              <div id="collapse-personal-data" class="accordion-collapse collapse">
+                <div class="accordion-body p-0">
+                  <form id="personal-data-form" class="row g-1" action="javascript:void(0);" autocomplete="off" novalidate onsubmit="return false;">
+                    <div class="col-3">
+                      <div class="form-floating">
+                        <input type="text" id="client-name" name="client-name" class="form-control form-control-sm rounded-3" placeholder="Nombre" />
+                        <label class="small" for="client-name">Nombre</label>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form-floating">
+                        <input type="text" id="school-name" name="school-name" class="form-control form-control-sm rounded-3" placeholder="Escuela" />
+                        <label class="small" for="school-name">Escuela</label>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form-floating">
+                        <input type="date" id="quotation-starting-date" name="quotation-starting-date" class="form-control form-control-sm rounded-3" placeholder="Inicio" title="Inicio" />
+                        <label class="small" for="quotation-starting-date">Inicio</label>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form-floating">
+                        <input type="date" id="quotation-end-date" name="quotation-end-date" class="form-control form-control-sm rounded-3" placeholder="Hasta" title="Hasta" />
+                        <label class="small" for="quotation-end-date">Hasta</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating">
+                        <textarea id="notes-field" name="notes-field" class="form-control form-control-sm rounded-3" placeholder="Notas"></textarea>
+                        <label class="small" for="notes-field">Notas</label>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white mb-1 p-2 rounded-4 shadow-sm flex-shrink-0">
+            <div class="row g-1">
+              <div class="col">
+                <div class="card border-0 rounded-3 shadow-sm">
+                  <div class="card-body d-flex flex-column justify-content-center">
+                    <div class="fw-semibold mb-1 small">Costo total</div>
+                    <div class="d-flex justify-content-around small">
+                      <span class="text-success" id="total-cost-economical">$XX.XX</span>
+                      <span class="text-primary" id="total-cost-high">$YY.YY</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card border-0 rounded-3 shadow-sm">
+                  <div class="card-body d-flex flex-column justify-content-center">
+                    <div class="fw-semibold mb-1 small">Descuento</div>
+                    <div class="d-flex justify-content-around small">
+                      <button id="discount-button" class="btn btn-outline-dark btn-sm border-0 p-0 px-2" type="button" data-bs-toggle="modal" data-bs-target="#discountModal">10%</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card border-0 rounded-3 shadow-sm">
+                  <div class="card-body d-flex flex-column justify-content-center">
+                    <div class="fw-semibold mb-1 small"><span class="badge text-bg-success">CE con descuento</span></div>
+                    <div class="d-flex justify-content-around small">
+                      <span class="text-success" id="discounted-total-economical">$XX.XX</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card border-0 rounded-3 shadow-sm">
+                  <div class="card-body d-flex flex-column justify-content-center">
+                    <div class="fw-semibold mb-1 small"><span class="badge text-bg-primary">CA con descuento</span></div>
+                    <div class="d-flex justify-content-around small">
+                      <span class="text-primary" id="discounted-total-high">$YY.YY</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card border-0 rounded-3 shadow-sm">
+                  <div class="card-body d-flex flex-column justify-content-center">
+                    <div class="fw-semibold mb-1 small">Aparta con</div>
+                    <div class="d-flex justify-content-around small">
+                      <span class="text-success" id="deposit-economical">$XX.XX</span>
+                      <span class="text-primary" id="deposit-high">$YY.YY</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white mb-1 p-2 rounded-4 shadow-sm flex-grow-1 custom-scroll-area">
+            <div class="bg-white p-2 pb-0 sticky-top custom-sticky-shadow">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="flex-grow-1">
+                  <span class="fw-semibold small">Productos seleccionados</span>
+                </div>
+                <div class="btn-group btn-group-sm d-flex flex-grow-1 ms-2" role="group">
+                  <!-- Botones de acciones de productos -->
+                  <button id="import-excel-btn" class="btn btn-outline-secondary rounded-start-3 rounded-0 flex-fill" title="Importar Excel" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Importar Excel">
+                    <i class="bi bi-file-earmark-excel-fill"></i>
+                  </button>
+                  <button id="download-excel-btn" class="btn btn-outline-success rounded-0 flex-fill" title="Descargar Excel" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Descargar Excel">
+                    <i class="bi bi-file-earmark-excel-fill"></i>
+                  </button>
+                  <button id="download-img-btn" class="btn btn-outline-primary rounded-end-3 rounded-0 flex-fill" title="Descargar imagen" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Descargar imagen">
+                    <i class="bi bi-file-image-fill"></i>
+                  </button>
+                </div>
+              </div>
+              <table class="table table-sm table-bordered mb-0 text-center custom-table-fixed">
+                <thead>
+                  <tr class="small">
+                    <th class="custom-th-5"></th>
+                    <th class="custom-th-5"></th>
+                    <th class="custom-th-5">CANT</th>
+                    <th class="custom-th-35">PRODUCTO</th>
+                    <th class="fs-6 bg-success text-light" colspan="3">CALIDAD ECONÓMICA</th>
+                    <th class="fs-6 bg-primary text-light" colspan="3">CALIDAD ALTA</th>
+                  </tr>
+                  <tr class="small">
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>MARCA</th>
+                    <th>P UNI</th>
+                    <th>IMPORTE</th>
+                    <th>MARCA</th>
+                    <th class="custom-th-25">P UNI</th>
+                    <th class="custom-th-25">IMPORTE</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div class="p-2 pt-0">
+              <table class="table table-sm table-bordered align-middle mb-0 text-center custom-table-fixed table-hover">
+                <thead class="invisibleThead">
+                  <tr class="small">
+                    <th class="custom-th-5"></th>
+                    <th class="custom-th-5"></th>
+                    <th class="custom-th-5"></th>
+                    <th class="custom-th-35"></th>
+                    <th colspan="3"></th>
+                    <th colspan="3"></th>
+                  </tr>
+                  <tr class="small">
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="custom-th-25"></th>
+                    <th class="custom-th-25"></th>
+                  </tr>
+                </thead>
+                <tbody id="products-body">
+                  <tr class="small">
+                    <td class="align-middle p-0">
+                      <span class="d-inline-block text-muted cursor-grab fs-5" title="Arrastrar">&#x2630;</span>
+                    </td>
+                    <td class="align-middle p-0">
+                      <button class="btn btn-link btn-sm text-danger fs-5" title="Quitar producto" type="button" onclick="eliminarFila(this)">
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </td>
+                    <td>
+                      <input class="form-control form-control-sm text-center" max="100" min="0" type="number" value="1" inputmode="numeric" autocomplete="off" placeholder="Cantidad" />
+                    </td>
+                    <td class="ps-2 text-start text-truncate custom-max-width custom-break-word" title="Nombre producto">Nombre producto</td>
+                    <td>Nombre marca económica</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>Nombre marca alta</td>
+                    <td>2</td>
+                    <td>2</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+        <aside class="col-3 d-flex flex-column custom-full-size">
+          <div class="bg-white mb-1 p-2 rounded-4 shadow-sm flex-shrink-0">
+            <input id="search-input" class="form-control form-control-sm mb-1 rounded-3" type="text" placeholder="Buscar producto..." />
+            <div class="btn-group w-100" role="group">
+              <!-- Botones del panel lateral -->
+              <button id="new-product-btn" class="btn btn-outline-primary btn-sm rounded-start-3" title="Crear nuevo producto" type="button" data-bs-toggle="modal" data-bs-target="#newProductModal" data-bs-placement="bottom" data-bs-title="Crear nuevo producto">
+                <i class="bi bi-cookie"></i>
+              </button>
+              <button id="download-file-btn" class="btn btn-outline-success btn-sm rounded-0" title="Descargar productos" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                <i class="bi bi-file-arrow-down-fill"></i>
+              </button>
+              <button id="upload-file-btn" class="btn btn-outline-secondary btn-sm rounded-end-3" title="Subir productos" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                <i class="bi bi-file-arrow-up"></i>
+              </button>
+            </div>
+          </div>
+          <div id="available-products" class="bg-white mb-1 p-2 overflow-y-auto rounded-4 shadow-sm flex-grow-1">
+            <div class="card border border-light-subtle rounded-4 shadow-sm mb-2">
+              <div class="card-body p-2">
+                <div class="input-group input-group-sm mb-2">
+                  <button type="button" class="btn btn-outline-success rounded-start-3" title="Agregar">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-danger" title="Eliminar">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                  <input type="number" min="0" value="0" class="form-control rounded-end-3 text-center" aria-label="Cantidad" />
+                </div>
+                <span class="form-label small fw-semibold mb-2 d-block text-break text-wrap w-100">Nombre de Producto</span>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <div class="card border-0 bg-light-subtle h-100">
+                      <div class="card-body p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                          <small class="fw-bold text-success">ECON</small>
+                          <input type="checkbox" class="form-check-input m-0" aria-label="Seleccionar económica" checked />
+                        </div>
+                        <div>
+                          <small class="fw-semibold text-dark">$12.34</small>
+                          <!-- Precio de la calidad económica -->
+                          <div class="small text-muted text-break text-wrap w-100">Marca calidad económica</div>
+                          <!-- Nombre de la marca de calidad económica-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="card border-0 bg-light-subtle h-100">
+                      <div class="card-body p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                          <small class="fw-bold text-primary">ALTA</small>
+                          <input type="checkbox" class="form-check-input m-0" aria-label="Seleccionar alta" checked />
+                        </div>
+                        <div>
+                          <small class="fw-semibold text-dark">$34.56</small>
+                          <!-- Precio de la calidad alta -->
+                          <div class="small text-muted text-break text-wrap w-100">Marca calidad alta</div>
+                          <!-- Nombre de la marca de calidad alta-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Modal para crear nuevo producto -->
+    <div class="modal fade" id="discountModal" tabindex="-1" aria-labelledby="discountModalLabel" aria-hidden="true" data-ref="modal-descuento">
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
+          <div class="modal-header border-0 pb-0">
+            <h6 class="modal-title fw-semibold" id="discountModalLabel"><i class="bi bi-percent me-1 text-primary"></i>Modificar descuento</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body pt-2 pb-3 px-3">
+            <form id="discount-form" autocomplete="off">
+              <div class="mb-2 text-center">
+                <label for="discount-input" class="form-label small fw-semibold w-100 text-center">Nuevo descuento (%)</label>
+                <input class="form-control form-control-sm rounded-3 text-center" id="discount-input" placeholder="Ej. 15" type="number" min="0" max="100" required />
+              </div>
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-sm btn-outline-primary rounded-3 px-3" data-bs-dismiss="modal">Aceptar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true" data-ref="modal-nuevo-producto">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
+          <div class="modal-header border-0 pb-0">
+            <h6 class="modal-title fw-semibold" id="newProductModalLabel"><i class="bi bi-cookie me-1 text-primary"></i>Crear nuevo producto</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body pt-2 pb-3 px-3">
+            <form id="new-product-form" autocomplete="off">
+              <div class="mb-2 text-center">
+                <label for="product-name" class="form-label small fw-semibold w-100 text-center">Nombre de producto</label>
+                <input type="text" class="form-control form-control-sm rounded-3 text-center" id="product-name" placeholder="Ej. Cuaderno profesional" value="Cuaderno Prfesional" required />
+              </div>
+              <div class="border rounded-3 p-2 mb-2 bg-light-subtle">
+                <div class="fw-semibold small text-success mb-2"><i class="bi bi-cash-coin me-1"></i>Calidad Económica</div>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <label for="eco-name" class="form-label small fw-semibold">Nombre calidad Económica</label>
+                    <input type="text" class="form-control form-control-sm rounded-3" id="eco-name" placeholder="Ej. Scribe" value="Scribe" required />
+                  </div>
+                  <div class="col-6">
+                    <label for="eco-price" class="form-label small fw-semibold">Precio calidad Económica</label>
+                    <input type="number" min="0" step="0.01" class="form-control form-control-sm rounded-3" id="eco-price" placeholder="Ej. 12.50" value="12.50" required />
+                  </div>
+                </div>
+              </div>
+              <div class="border rounded-3 p-2 mb-2 bg-light-subtle">
+                <div class="fw-semibold small text-primary mb-2"><i class="bi bi-gem me-1"></i>Calidad Alta</div>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <label for="high-name" class="form-label small fw-semibold">Nombre calidad Alta</label>
+                    <input type="text" class="form-control form-control-sm rounded-3" id="high-name" placeholder="Ej. Norma" value="Norma" required />
+                  </div>
+                  <div class="col-6">
+                    <label for="high-price" class="form-label small fw-semibold">Precio calidad Alta</label>
+                    <input type="number" min="0" step="0.01" class="form-control form-control-sm rounded-3" id="high-price" placeholder="Ej. 18.00" value="18.00" required />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end">
+                <button id="create-product-btn" type="submit" class="btn btn-sm btn-outline-primary rounded-3 px-3">Crear</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script>
+      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl, {
+          trigger: "hover",
+        });
+      });
+    </script>
+  </body>
+</html>
