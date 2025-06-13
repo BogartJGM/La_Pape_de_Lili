@@ -155,12 +155,34 @@ export function createProductCardElement(productData) {
 
   // Agregar eventos a los botones
   addButton.addEventListener("click", () => {
+    let economicQualityName, economicQualityPrice, highQualityName, highQualityPrice;
+
+    if (econCheckbox.checked && !highCheckbox.checked) {
+      // Solo ECON activa: duplicar datos de ECON para ambas calidades
+      economicQualityName = econName.textContent;
+      economicQualityPrice = Number(econPrice.dataset.price);
+      highQualityName = econName.textContent;
+      highQualityPrice = Number(econPrice.dataset.price);
+    } else if (!econCheckbox.checked && highCheckbox.checked) {
+      // Solo HIGH activa: duplicar datos de HIGH para ambas calidades
+      economicQualityName = highName.textContent;
+      economicQualityPrice = Number(highPrice.dataset.price);
+      highQualityName = highName.textContent;
+      highQualityPrice = Number(highPrice.dataset.price);
+    } else {
+      // Ambos activos: datos originales
+      economicQualityName = econName.textContent;
+      economicQualityPrice = Number(econPrice.dataset.price);
+      highQualityName = highName.textContent;
+      highQualityPrice = Number(highPrice.dataset.price);
+    }
+
     const actualProductData = {
       productName: productNameSpan.textContent,
-      economicQualityName: econName.textContent,
-      economicQualityPrice: Number(econPrice.dataset.price),
-      highQualityName: highName.textContent,
-      highQualityPrice: Number(highPrice.dataset.price),
+      economicQualityName,
+      economicQualityPrice,
+      highQualityName,
+      highQualityPrice,
       quantity: parseInt(quantityInput.value, 10),
       econCheckboxChecked: econCheckbox.checked,
       highCheckboxChecked: highCheckbox.checked,
@@ -190,7 +212,28 @@ export function createProductCardElement(productData) {
 
   cardDiv.appendChild(cardBody);
 
+  econCheckbox.addEventListener("change", () => {
+    ensureAtLeastOneChecked(econCheckbox, highCheckbox);
+  });
+
+  highCheckbox.addEventListener("change", () => {
+    ensureAtLeastOneChecked(highCheckbox, econCheckbox);
+  });
+
   return cardDiv;
+}
+
+// Asegurar que al menos uno de los dos checkboxes esté siempre activo
+/**
+ * Asegura que al menos uno de los dos checkboxes esté siempre activo.
+ * Si ambos quedan desmarcados, vuelve a marcar el que se acaba de desmarcar.
+ * @param {HTMLInputElement} changedCheckbox
+ * @param {HTMLInputElement} otherCheckbox
+ */
+function ensureAtLeastOneChecked(changedCheckbox, otherCheckbox) {
+  if (!changedCheckbox.checked && !otherCheckbox.checked) {
+    changedCheckbox.checked = true;
+  }
 }
 
 function addProductToSelectedProducts(productData) {
@@ -198,8 +241,5 @@ function addProductToSelectedProducts(productData) {
   const selectedProductRow = createSelectedProductRow(productData);
 
   insertElementIntoContainer(selectedProductRow, document.getElementById("products-body"));
-  updateTotals(
-    productData.economicQualityPrice * productData.quantity,
-    productData.highQualityPrice * productData.quantity
-  );
+  updateTotals(productData.economicQualityPrice * productData.quantity, productData.highQualityPrice * productData.quantity);
 }
