@@ -1,9 +1,10 @@
-import { handleCreateProductBtnListener } from "./listeners/handleCreateProduc.js";
+import { handleCreateProductBtnListener } from "./listeners/handleCreateProduct.js";
 import { magic } from "./debug/magic.js";
 import { initSortable } from "./helpers/initSortable.js";
 import { handleDiscountChangeListener } from "./listeners/handleDiscountChange.js";
 import { handleProductSearchListener } from "./listeners/handleProductSearch.js";
 import { loadAvailableProductsFromStorage } from "./helpers/loadAvailableProducts.js";
+import { handleCreateProductFromExcel } from "./listeners/handleCreateProductsFromExcel.js";
 
 function main() {
   handleCreateProductBtnListener();
@@ -12,6 +13,7 @@ function main() {
   handleDiscountChangeListener();
   handleProductSearchListener();
   loadAvailableProductsFromStorage();
+  handleCreateProductFromExcel();
 }
 
 main();
