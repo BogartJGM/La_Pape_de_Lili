@@ -90,6 +90,15 @@ function addProductCardToDOM(productData) {
 
   if (container && productNode) {
     container.appendChild(productNode);
+
+    // Guardar en localStorage
+    const key = "availableProducts";
+    // Obtener el arreglo actual o inicializarlo vacío
+    const products = JSON.parse(localStorage.getItem(key)) || [];
+    // Agregar el nuevo producto
+    products.push(productData);
+    // Guardar el arreglo actualizado
+    localStorage.setItem(key, JSON.stringify(products));
   }
 }
 

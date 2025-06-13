@@ -192,6 +192,7 @@ export function createProductCardElement(productData) {
   });
   deleteButton.addEventListener("click", () => {
     cardDiv.remove();
+    removeProductFromLocalStorage(productData.productName);
   });
 
   highDetails.appendChild(highPrice);
@@ -223,7 +224,6 @@ export function createProductCardElement(productData) {
   return cardDiv;
 }
 
-// Asegurar que al menos uno de los dos checkboxes esté siempre activo
 /**
  * Asegura que al menos uno de los dos checkboxes esté siempre activo.
  * Si ambos quedan desmarcados, vuelve a marcar el que se acaba de desmarcar.
@@ -242,4 +242,17 @@ function addProductToSelectedProducts(productData) {
 
   insertElementIntoContainer(selectedProductRow, document.getElementById("products-body"));
   updateTotals(productData.economicQualityPrice * productData.quantity, productData.highQualityPrice * productData.quantity);
+}
+
+/**
+ * Elimina un producto de localStorage por su nombre.
+ * @param {string} productName
+ */
+function removeProductFromLocalStorage(productName) {
+  const key = "availableProducts";
+  const products = JSON.parse(localStorage.getItem(key)) || [];
+  const updatedProducts = products.filter(
+    (p) => p.productName !== productName
+  );
+  localStorage.setItem(key, JSON.stringify(updatedProducts));
 }
