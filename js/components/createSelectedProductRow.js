@@ -4,12 +4,12 @@ import { updateTotalsOnQuantityChange } from "../helpers/updateTotals.js";
 /**
  * Crea una fila <tr> con los datos del producto seleccionado.
  * @param {Object} productData - Objeto con los datos del producto.
+ * @param {number} productData.quantity - Cantidad seleccionada.
  * @param {string} productData.productName - Nombre del producto.
  * @param {string} productData.economicQualityName - Nombre de la calidad económica.
  * @param {number} productData.economicQualityPrice - Precio de la calidad económica.
  * @param {string} productData.highQualityName - Nombre de la calidad alta.
  * @param {number} productData.highQualityPrice - Precio de la calidad alta.
- * @param {number} productData.quantity - Cantidad seleccionada.
  * @param {boolean} productData.econCheckboxChecked - Si la calidad económica está seleccionada.
  * @param {boolean} productData.highCheckboxChecked - Si la calidad alta está seleccionada.
  * @returns {HTMLTableRowElement} Fila <tr> con los datos del producto.
@@ -23,9 +23,11 @@ export function createSelectedProductRow(productData) {
   trProduct.dataset.brandEcon = productData.economicQualityName;
   trProduct.dataset.priceEcon = productData.economicQualityPrice.toFixed(2);
   trProduct.dataset.amountEcon = (productData.quantity * Number(productData.economicQualityPrice)).toFixed(2);
+  trProduct.dataset.econCheckboxChecked = productData.highCheckboxChecked ? "true" : "false";
   trProduct.dataset.brandhigh = productData.highQualityName;
   trProduct.dataset.priceHigh = Number(productData.highQualityPrice).toFixed(2);
   trProduct.dataset.amountHigh = (productData.quantity * Number(productData.highQualityPrice)).toFixed(2);
+  trProduct.dataset.highCheckboxChecked = productData.highCheckboxChecked ? "true" : "false";
 
   // 1. Manejador de arrastre
   const tdDrag = document.createElement("td");

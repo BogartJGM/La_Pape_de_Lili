@@ -54,7 +54,6 @@ export function handleCreateProductFromExcel() {
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      console.log(jsonData);
 
       // Procesar jsonData para crear productos
       jsonData.forEach((row, index) => {
