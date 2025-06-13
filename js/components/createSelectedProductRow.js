@@ -23,7 +23,7 @@ export function createSelectedProductRow(productData) {
   trProduct.dataset.brandEcon = productData.economicQualityName;
   trProduct.dataset.priceEcon = productData.economicQualityPrice.toFixed(2);
   trProduct.dataset.amountEcon = (productData.quantity * Number(productData.economicQualityPrice)).toFixed(2);
-  trProduct.dataset.econCheckboxChecked = productData.highCheckboxChecked ? "true" : "false";
+  trProduct.dataset.econCheckboxChecked = productData.econCheckboxChecked ? "true" : "false";
   trProduct.dataset.brandhigh = productData.highQualityName;
   trProduct.dataset.priceHigh = Number(productData.highQualityPrice).toFixed(2);
   trProduct.dataset.amountHigh = (productData.quantity * Number(productData.highQualityPrice)).toFixed(2);
@@ -121,7 +121,8 @@ export function createSelectedProductRow(productData) {
 
   // 5. Marca económica
   const tdBrandEcon = document.createElement("td");
-  tdBrandEcon.className = "text-muted";
+  tdBrandEcon.className = "text-muted text-truncate";
+  tdBrandEcon.title = productData.economicQualityName;
   tdBrandEcon.textContent = productData.economicQualityName;
 
   // 6. Precio económico
@@ -136,7 +137,8 @@ export function createSelectedProductRow(productData) {
 
   // 8. Marca alta
   const tdBrandHigh = document.createElement("td");
-  tdBrandHigh.className = "text-muted";
+  tdBrandHigh.className = "text-muted text-truncate";
+  tdBrandHigh.title = productData.highQualityName;
   tdBrandHigh.textContent = productData.highQualityName;
 
   // 9. Precio alto

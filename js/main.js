@@ -6,6 +6,7 @@ import { handleProductSearchListener } from "./listeners/handleProductSearch.js"
 import { loadAvailableProductsFromStorage } from "./helpers/loadAvailableProducts.js";
 import { handleCreateProductFromExcel } from "./listeners/handleCreateProductsFromExcel.js";
 import { handleDownloadProductsBtnListener } from "./listeners/handleDownloadProducts.js";
+import { handleDownloadQuotationExcel } from "./listeners/handleDownloadQuotationExcel.js";
 
 function main() {
   handleCreateProductBtnListener();
@@ -16,6 +17,7 @@ function main() {
   loadAvailableProductsFromStorage();
   handleCreateProductFromExcel();
   handleDownloadProductsBtnListener();
+  handleDownloadQuotationExcel();
 }
 
 main();
