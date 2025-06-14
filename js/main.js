@@ -7,6 +7,7 @@ import { loadAvailableProductsFromStorage } from "./helpers/loadAvailableProduct
 import { handleCreateProductFromExcel } from "./listeners/handleCreateProductsFromExcel.js";
 import { handleDownloadProductsBtnListener } from "./listeners/handleDownloadProducts.js";
 import { handleDownloadQuotationExcel } from "./listeners/handleDownloadQuotationExcel.js";
+import { handleImportSelectedProductsFromExcel } from "./listeners/handleImportSelectedProductsFromExcel.js";
 
 function main() {
   handleCreateProductBtnListener();
@@ -18,6 +19,7 @@ function main() {
   handleCreateProductFromExcel();
   handleDownloadProductsBtnListener();
   handleDownloadQuotationExcel();
+  handleImportSelectedProductsFromExcel();
 }
 
 main();
