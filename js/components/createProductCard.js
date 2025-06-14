@@ -59,7 +59,7 @@ export function createProductCardElement(productData) {
   quantityInput.setAttribute("min", "1");
   quantityInput.setAttribute("value", "1");
   quantityInput.setAttribute("autocomplete", "off");
-  quantityInput.classList.add("form-control", "rounded-end-3", "text-center");
+  quantityInput.classList.add("form-control", "rounded-end-3", "text-center", "quantity-input");
 
   inputGroup.appendChild(addButton);
   inputGroup.appendChild(deleteButton);
@@ -153,24 +153,27 @@ export function createProductCardElement(productData) {
   highName.classList.add("small", "text-muted", "text-break", "text-wrap", "w-100", "qualityName", "search");
   highName.textContent = productData.highQualityName;
 
-  // Agregar eventos a los botones
-  addButton.addEventListener("click", () => {
+  // Función para agregar el producto (para reutilizar en botón y enter)
+  function handleAddProduct() {
+    let quantity = parseInt(quantityInput.value, 10);
+    if (isNaN(quantity) || quantity < 1) {
+      quantity = 1;
+      quantityInput.value = "1";
+    }
+
     let economicQualityName, economicQualityPrice, highQualityName, highQualityPrice;
 
     if (econCheckbox.checked && !highCheckbox.checked) {
-      // Solo ECON activa: duplicar datos de ECON para ambas calidades
       economicQualityName = econName.textContent;
       economicQualityPrice = Number(econPrice.dataset.price);
       highQualityName = econName.textContent;
       highQualityPrice = Number(econPrice.dataset.price);
     } else if (!econCheckbox.checked && highCheckbox.checked) {
-      // Solo HIGH activa: duplicar datos de HIGH para ambas calidades
       economicQualityName = highName.textContent;
       economicQualityPrice = Number(highPrice.dataset.price);
       highQualityName = highName.textContent;
       highQualityPrice = Number(highPrice.dataset.price);
     } else {
-      // Ambos activos: datos originales
       economicQualityName = econName.textContent;
       economicQualityPrice = Number(econPrice.dataset.price);
       highQualityName = highName.textContent;
@@ -183,16 +186,42 @@ export function createProductCardElement(productData) {
       economicQualityPrice,
       highQualityName,
       highQualityPrice,
-      quantity: parseInt(quantityInput.value, 10),
+      quantity,
       econCheckboxChecked: econCheckbox.checked,
       highCheckboxChecked: highCheckbox.checked,
     };
 
+    quantityInput.value = 1;
     addProductToSelectedProducts(actualProductData);
-  });
+  }
+  
   deleteButton.addEventListener("click", () => {
     cardDiv.remove();
     removeProductFromLocalStorage(productData.productName);
+  });
+
+
+  addButton.addEventListener("click", handleAddProduct);
+
+  // Nuevo: activar agregar producto con Enter en el input de cantidad
+  quantityInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      handleAddProduct();
+    }
+  });
+
+  // Permitir borrar el campo, pero validar solo números y sin ceros a la izquierda
+  quantityInput.addEventListener("input", () => {
+    let value = quantityInput.value.replace(/\D/g, "");
+    value = value.replace(/^0+/, "");
+    quantityInput.value = value;
+  });
+
+  // Si el usuario sale del input y está vacío, poner 1
+  quantityInput.addEventListener("blur", () => {
+    if (quantityInput.value === "") {
+      quantityInput.value = "1";
+    }
   });
 
   highDetails.appendChild(highPrice);
