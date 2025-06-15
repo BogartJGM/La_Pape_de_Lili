@@ -7,7 +7,7 @@ import { loadAvailableProductsFromStorage } from "./helpers/loadAvailableProduct
 import { handleCreateProductFromExcel } from "./listeners/handleCreateProductsFromExcel.js";
 import { handleDownloadProductsBtnListener } from "./listeners/handleDownloadProducts.js";
 import { handleDownloadQuotationExcel } from "./listeners/handleDownloadQuotationExcel.js";
-import { handleImportSelectedProductsFromExcel } from "./listeners/handleImportSelectedProductsFromExcel.js";
+import { handleImportQuotationFromExcel } from "./listeners/handleImportQuotationFromExcel.js";
 import { handleToggleAsideBtnListener } from "./listeners/handleToggleAside.js";
 import { handleQuotationDatesListener } from "./listeners/handleQuotationDates.js";
 
@@ -21,7 +21,7 @@ function main() {
   handleCreateProductFromExcel();
   handleDownloadProductsBtnListener();
   handleDownloadQuotationExcel();
-  handleImportSelectedProductsFromExcel();
+  handleImportQuotationFromExcel();
   handleToggleAsideBtnListener();
   handleQuotationDatesListener();
 }

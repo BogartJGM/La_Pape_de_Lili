@@ -4,8 +4,9 @@ import { updateTotals } from "../helpers/updateTotals.js";
 /**
  * Listener para importar productos seleccionados desde un archivo Excel.
  * Agrega filas a #products-body y actualiza los totales.
+ * También restaura los datos generales si existen.
  */
-export function handleImportSelectedProductsFromExcel() {
+export function handleImportQuotationFromExcel() {
   const importBtn = document.getElementById("import-excel-btn");
   if (!importBtn) return;
 
@@ -33,9 +34,33 @@ export function handleImportSelectedProductsFromExcel() {
     reader.onload = function (e) {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: "array" });
-      const firstSheetName = workbook.SheetNames[0];
+
+      // --- Restaurar datos generales si existe la hoja "Datos" ---
+      const datosSheet = workbook.Sheets["Datos"];
+      if (datosSheet) {
+        const datos = XLSX.utils.sheet_to_json(datosSheet, { header: 1 });
+        // Buscar los valores por nombre de campo
+        const getValue = (campo) => {
+          const row = datos.find(r => r[0] === campo);
+          return row ? row[1] : "";
+        };
+        document.getElementById("client-name").value = getValue("Nombre del cliente");
+        document.getElementById("school-name").value = getValue("Nombre de la escuela");
+        document.getElementById("quotation-starting-date").value = getValue("Fecha de inicio");
+        document.getElementById("quotation-end-date").value = getValue("Fecha de fin");
+        document.getElementById("notes-field").value = getValue("Notas");
+      }
+
+      // --- Importar productos desde la hoja principal ---
+      const firstSheetName = workbook.SheetNames.find(name => name !== "Datos");
       const worksheet = workbook.Sheets[firstSheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+      // Eliminar productos seleccionados existentes antes de importar
+      const productsBody = document.getElementById("products-body");
+      if (productsBody) {
+        productsBody.innerHTML = "";
+      }
 
       // Asume que la primera fila es encabezado
       let totalEco = 0,
@@ -62,7 +87,7 @@ export function handleImportSelectedProductsFromExcel() {
 
         // Crear y agregar la fila
         const rowEl = createSelectedProductRow(productData);
-        document.getElementById("products-body").appendChild(rowEl);
+        productsBody.appendChild(rowEl);
 
         // Sumar a los totales
         totalEco += productData.economicQualityPrice * productData.quantity;
@@ -71,6 +96,16 @@ export function handleImportSelectedProductsFromExcel() {
 
       // Actualizar los totales
       updateTotals(totalEco, totalHigh);
+
+      // Abrir el accordion de datos personales de forma fluida (usando Bootstrap Collapse)
+      const collapseEl = document.getElementById('collapse-personal-data');
+      if (collapseEl && !collapseEl.classList.contains('show')) {
+        new bootstrap.Collapse(collapseEl, { show: true });
+        const trigger = document.querySelector('[data-bs-target="#collapse-personal-data"]');
+        if (trigger) {
+          trigger.classList.remove('collapsed');
+        }
+      }
     };
     reader.readAsArrayBuffer(file);
   });

@@ -78,13 +78,28 @@ export function handleDownloadQuotationExcel() {
       ) + 2
     }));
 
-    // Crea el libro y descarga
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Cotización");
-
-    // Obtiene los valores de los campos para el nombre del archivo
+    // Obtiene los valores de los campos para el nombre del archivo y para la hoja de datos
     const nombre = document.getElementById('client-name')?.value.trim() || "";
     const escuela = document.getElementById('school-name')?.value.trim() || "";
+    const fechaInicio = document.getElementById('quotation-starting-date')?.value.trim() || "";
+    const fechaFin = document.getElementById('quotation-end-date')?.value.trim() || "";
+    const notas = document.getElementById('notes-field')?.value.trim() || "";
+
+    // Hoja de datos adicionales
+    const datos = [
+      ["Campo", "Valor"],
+      ["Nombre del cliente", nombre],
+      ["Nombre de la escuela", escuela],
+      ["Fecha de inicio", fechaInicio],
+      ["Fecha de fin", fechaFin],
+      ["Notas", notas]
+    ];
+    const datosSheet = XLSX.utils.aoa_to_sheet(datos);
+
+    // Crea el libro y ajusta el ancho de columnas
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Cotización");
+    XLSX.utils.book_append_sheet(workbook, datosSheet, "Datos");
 
     const nombreArchivo = `${nombre} - ${escuela}.xlsx`;
 
