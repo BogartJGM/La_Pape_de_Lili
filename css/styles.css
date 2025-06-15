@@ -98,3 +98,25 @@ table input[type="number"] {
 .cursor-grab {
   cursor: grab;
 }
+
+/* Transiciones suaves y menos exageradas para main, aside y el botón toggle */
+main.col-9,
+main.col-12 {
+  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+aside.col-3 {
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), width 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(0);
+  opacity: 1;
+}
+
+aside.col-3.aside-hidden {
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#toggle-aside-btn {
+  transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

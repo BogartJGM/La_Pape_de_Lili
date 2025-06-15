@@ -8,6 +8,7 @@ import { handleCreateProductFromExcel } from "./listeners/handleCreateProductsFr
 import { handleDownloadProductsBtnListener } from "./listeners/handleDownloadProducts.js";
 import { handleDownloadQuotationExcel } from "./listeners/handleDownloadQuotationExcel.js";
 import { handleImportSelectedProductsFromExcel } from "./listeners/handleImportSelectedProductsFromExcel.js";
+import { handleToggleAsideBtnListener } from "./listeners/handleToggleAside.js";
 
 function main() {
   handleCreateProductBtnListener();
@@ -20,6 +21,7 @@ function main() {
   handleDownloadProductsBtnListener();
   handleDownloadQuotationExcel();
   handleImportSelectedProductsFromExcel();
+  handleToggleAsideBtnListener();
 }
 
 main();
