@@ -1,6 +1,100 @@
 import { createProductCardElement } from "../components/createProductCard.js";
 
 /**
+ * Obtiene y retorna los datos ingresados en el formulario de nuevo producto.
+ * Si algún campo está vacío, retorna null.
+ */
+function getNewProductFormData() {
+  const form = document.getElementById("new-product-form");
+  if (!form) {
+    console.warn(`Advertencia: El elemento con ID 'new-product-form' no existe`);
+    return null;
+  }
+
+  const productName = form.querySelector("#product-name").value.trim();
+  const economicQualityName = form.querySelector("#eco-name").value.trim();
+  const economicQualityPrice = form.querySelector("#eco-price").value.trim();
+  const highQualityName = form.querySelector("#high-name").value.trim();
+  const highQualityPrice = form.querySelector("#high-price").value.trim();
+
+  // Validar campos vacíos
+  if (!productName || !economicQualityName || !economicQualityPrice || !highQualityName || !highQualityPrice) {
+    return null;
+  }
+
+  form.reset();
+
+  return {
+    productName,
+    economicQualityName,
+    economicQualityPrice: Number(economicQualityPrice),
+    highQualityName,
+    highQualityPrice: Number(highQualityPrice),
+  };
+}
+
+/**
+ * Agrega una tarjeta de producto al DOM dentro del contenedor con ID 'available-products'.
+ *
+ * Utiliza los datos proporcionados para crear un nodo de tarjeta de producto mediante createProductCardElement,
+ * y lo inserta como hijo del contenedor con ID 'available-products' en el DOM.
+ * Si el contenedor o el nodo del producto no existen, la función no realiza ninguna acción.
+ *
+ * @param {ProductData} productData - Objeto con los datos del producto a mostrar en la tarjeta.
+ */
+function addProductCardToDOM(productData) {
+  const productNode = createProductCardElement(productData);
+  const container = document.getElementById("available-products");
+
+  if (container && productNode) {
+    // Agregar animación grow
+    productNode.classList.add("grow-animate");
+    setTimeout(() => {
+      productNode.classList.remove("grow-animate");
+    }, 200);
+
+    container.insertBefore(productNode, container.firstChild);
+    // Guardar en localStorage
+    const key = "availableProducts";
+    const products = JSON.parse(localStorage.getItem(key)) || [];
+    products.push(productData);
+    localStorage.setItem(key, JSON.stringify(products));
+  }
+
+  const modalElement = document.getElementById("newProductModal");
+  const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+  modalInstance.hide();
+}
+/**
+ * Muestra un mensaje de error arriba del modal-header con animación shake.
+ */
+function showModalError(message) {
+  removeModalError();
+  const modal = document.getElementById("newProductModal");
+  if (!modal) return;
+  const modalHeader = modal.querySelector(".modal-header");
+  if (!modalHeader) return;
+
+  const errorDiv = document.createElement("div");
+  errorDiv.id = "modal-error-msg";
+  errorDiv.className = "alert alert-danger py-1 px-2 mb-2 shake";
+  errorDiv.style.fontSize = "0.95em";
+  errorDiv.textContent = message;
+
+  modalHeader.parentNode.insertBefore(errorDiv, modalHeader);
+}
+
+/**
+ * Elimina el mensaje de error si existe.
+ */
+function removeModalError() {
+  const errorDiv = document.getElementById("modal-error-msg");
+  if (errorDiv) {
+    errorDiv.remove();
+  }
+}
+
+/**
  * Inicializa el listener para el botón de creación de producto.
  *
  * Al hacer clic en el botón con ID 'create-product-btn', esta función:
@@ -27,79 +121,21 @@ function handleCreateProductBtnListener() {
     const productData = getNewProductFormData();
 
     if (!productData) {
-      console.warn("Advertencia: No se pudieron obtener los datos del formulario del nuevo producto.");
+      showModalError("Introduce todos los valores para el producto.");
       return;
     }
 
+    removeModalError();
     addProductCardToDOM(productData);
   });
 }
 
-/**
- * Obtiene y retorna los datos ingresados en el formulario de nuevo producto.
- *
- * Busca el formulario con ID 'new-product-form' en el DOM y extrae los valores de los campos:
- *  - Nombre del producto (#product-name)
- *  - Nombre y precio de la calidad económica (#eco-name, #eco-price)
- *  - Nombre y precio de la calidad alta (#high-name, #high-price)
- *
- * Si el formulario no existe, muestra una advertencia en la consola y retorna null.
- * Tras obtener los datos, reinicia el formulario para limpiar los campos.
- *
- * @typedef {Object} ProductData
- * @property {string} productName Nombre del producto.
- * @property {string} economicQualityName Nombre de la calidad económica.
- * @property {number|string} economicQualityPrice Precio de la calidad económica.
- * @property {string} highQualityName Nombre de la calidad alta.
- * @property {number|string} highQualityPrice Precio de la calidad alta.
- *
- * @returns {ProductData|null} Objeto con los datos del producto o null si el formulario no existe.
- */
-function getNewProductFormData() {
-  const form = document.getElementById("new-product-form");
-  if (!form) {
-    console.warn(`Advertencia: El elemento con ID 'new-product-form' no existe`);
-    return null;
-  }
-
-  const productData = {
-    productName: form.querySelector("#product-name").value,
-    economicQualityName: form.querySelector("#eco-name").value,
-    economicQualityPrice: Number(form.querySelector("#eco-price").value),
-    highQualityName: form.querySelector("#high-name").value,
-    highQualityPrice: Number(form.querySelector("#high-price").value),
-  };
-
-  form.reset();
-
-  return productData;
-}
-
-/**
- * Agrega una tarjeta de producto al DOM dentro del contenedor con ID 'available-products'.
- *
- * Utiliza los datos proporcionados para crear un nodo de tarjeta de producto mediante createProductCardElement,
- * y lo inserta como hijo del contenedor con ID 'available-products' en el DOM.
- * Si el contenedor o el nodo del producto no existen, la función no realiza ninguna acción.
- *
- * @param {ProductData} productData - Objeto con los datos del producto a mostrar en la tarjeta.
- */
-function addProductCardToDOM(productData) {
-  const productNode = createProductCardElement(productData);
-  const container = document.getElementById("available-products");
-
-  if (container && productNode) {
-    container.appendChild(productNode);
-
-    // Guardar en localStorage
-    const key = "availableProducts";
-    // Obtener el arreglo actual o inicializarlo vacío
-    const products = JSON.parse(localStorage.getItem(key)) || [];
-    // Agregar el nuevo producto
-    products.push(productData);
-    // Guardar el arreglo actualizado
-    localStorage.setItem(key, JSON.stringify(products));
-  }
+// Elimina el mensaje de error si el modal se cierra
+const newProductModal = document.getElementById("newProductModal");
+if (newProductModal) {
+  newProductModal.addEventListener("hidden.bs.modal", () => {
+    removeModalError();
+  });
 }
 
 export { handleCreateProductBtnListener };
