@@ -12,7 +12,7 @@ import { handleToggleAsideBtnListener } from "./listeners/handleToggleAside.js";
 
 function main() {
   handleCreateProductBtnListener();
-  magic();
+  // magic();
   initSortable();
   handleDiscountChangeListener();
   handleProductSearchListener();
