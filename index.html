@@ -36,16 +36,26 @@
                         <label class="small" for="school-name">Escuela</label>
                       </div>
                     </div>
-                    <div class="col-3">
-                      <div class="form-floating">
-                        <input type="date" id="quotation-starting-date" name="quotation-starting-date" class="form-control form-control-sm rounded-3" placeholder="Inicio" title="Inicio" />
-                        <label class="small" for="quotation-starting-date">Inicio</label>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="form-floating">
-                        <input type="date" id="quotation-end-date" name="quotation-end-date" class="form-control form-control-sm rounded-3" placeholder="Hasta" title="Hasta" />
-                        <label class="small" for="quotation-end-date">Hasta</label>
+                    <div class="col-6">
+                      <div class="row">
+                        <div class="col pe-0">
+                          <div class="form-floating">
+                            <input type="date" id="quotation-starting-date" name="quotation-starting-date" class="form-control form-control-sm rounded-3 rounded-end-0" placeholder="Inicio" title="Inicio" />
+                            <label class="small" for="quotation-starting-date">Inicio</label>
+                          </div>
+                        </div>
+                        <div class="col-1 p-0">
+                          <button id="today-button" class="btn btn-outline-secondary btn-sm w-100 h-100 rounded-0" type="button" title="Hoy">
+                            <i class="bi bi-calendar-check-fill"></i>
+                          </button>
+                        </div>
+                        <!-- Contenedor con padding right 0-->
+                        <div class="col ps-0">
+                          <div class="form-floating">
+                            <input type="date" id="quotation-end-date" name="quotation-end-date" class="form-control form-control-sm rounded-3 rounded-start-0" placeholder="Hasta" title="Hasta" disabled/>
+                            <label class="small" for="quotation-end-date">Hasta</label>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="col-12">
