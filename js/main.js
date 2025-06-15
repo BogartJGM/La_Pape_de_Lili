@@ -10,6 +10,7 @@ import { handleDownloadQuotationExcel } from "./listeners/handleDownloadQuotatio
 import { handleImportQuotationFromExcel } from "./listeners/handleImportQuotationFromExcel.js";
 import { handleToggleAsideBtnListener } from "./listeners/handleToggleAside.js";
 import { handleQuotationDatesListener } from "./listeners/handleQuotationDates.js";
+import { disableAltKeyGlobally } from "./helpers/disableAltKey.js";
 
 function main() {
   handleCreateProductBtnListener();
@@ -24,6 +25,7 @@ function main() {
   handleImportQuotationFromExcel();
   handleToggleAsideBtnListener();
   handleQuotationDatesListener();
+  disableAltKeyGlobally();
 }
 
 main();
