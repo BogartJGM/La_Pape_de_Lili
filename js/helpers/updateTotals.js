@@ -116,3 +116,40 @@ export function updateTotalsOnQuantityChange(prevEconAmount, newEconAmount, prev
   // Luego sumar los nuevos importes
   updateTotals(newEconAmount, newHighAmount);
 }
+
+/**
+ * Reinicia todos los totales, descuentos y depósitos a cero.
+ */
+export function resetTotals() {
+  const totalCostEconomicalElement = document.getElementById("total-cost-economical");
+  const totalCostHighElement = document.getElementById("total-cost-high");
+  const discountedTotalEconomicalElement = document.getElementById("discounted-total-economical");
+  const discountedTotalHighElement = document.getElementById("discounted-total-high");
+  const depositEconomicalElement = document.getElementById("deposit-economical");
+  const depositHighElement = document.getElementById("deposit-high");
+
+  if (totalCostEconomicalElement) {
+    totalCostEconomicalElement.dataset.totalCostEco = "0.00";
+    totalCostEconomicalElement.textContent = "$0.00";
+  }
+  if (totalCostHighElement) {
+    totalCostHighElement.dataset.totalCostHigh = "0.00";
+    totalCostHighElement.textContent = "$0.00";
+  }
+  if (discountedTotalEconomicalElement) {
+    discountedTotalEconomicalElement.dataset.discountedTotalEco = "0.00";
+    discountedTotalEconomicalElement.textContent = "$0.00";
+  }
+  if (discountedTotalHighElement) {
+    discountedTotalHighElement.dataset.discountedTotalHigh = "0.00";
+    discountedTotalHighElement.textContent = "$0.00";
+  }
+  if (depositEconomicalElement) {
+    depositEconomicalElement.dataset.depositEconomical = "0.00";
+    depositEconomicalElement.textContent = "$0.00";
+  }
+  if (depositHighElement) {
+    depositHighElement.dataset.depositHigh = "0.00";
+    depositHighElement.textContent = "$0.00";
+  }
+}

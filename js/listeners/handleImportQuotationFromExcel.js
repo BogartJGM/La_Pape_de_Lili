@@ -1,5 +1,5 @@
 import { createSelectedProductRow } from "../components/createSelectedProductRow.js";
-import { updateTotals } from "../helpers/updateTotals.js";
+import { resetTotals, updateTotals } from "../helpers/updateTotals.js";
 
 /**
  * Listener para importar productos seleccionados desde un archivo Excel.
@@ -61,6 +61,9 @@ export function handleImportQuotationFromExcel() {
       if (productsBody) {
         productsBody.innerHTML = "";
       }
+
+      // Limpiar los totales antes de importar los nuevos datos
+      resetTotals();
 
       // Asume que la primera fila es encabezado
       let totalEco = 0,
