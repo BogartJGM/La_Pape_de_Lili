@@ -124,6 +124,21 @@ export function handleProductSearchListener() {
     }
   }
 
+  function handleEscapeKey(e) {
+    if (e.key === "Escape") {
+      removeSelection();
+      searchInput.value = "";
+      filterAvailableProducts("");
+    }
+  }
+
+  //Función para no permitir el compartamiento de la tecla alt sola
+  function preventAltKeyBehavior(e) {
+    if (e.key === "Alt") {
+      e.preventDefault();
+    }
+  }
+  
   // --- Listeners principales ---
 
   // Filtrado de productos al escribir
@@ -134,7 +149,9 @@ export function handleProductSearchListener() {
 
   // Navegación y cantidad con teclado
   searchInput.addEventListener("keydown", (e) => {
+    handleEscapeKey(e);
     handleNavigationKeys(e);
     handleAltQuantityKeys(e);
+    preventAltKeyBehavior(e);
   });
 }

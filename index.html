@@ -123,13 +123,13 @@
                 </div>
                 <div class="btn-group btn-group-sm d-flex flex-grow-1 ms-2" role="group">
                   <!-- Botones de acciones de productos -->
-                  <button id="import-excel-btn" class="btn btn-outline-secondary rounded-start-3 rounded-0 flex-fill" title="Importar Excel" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Importar Excel">
+                  <button id="import-excel-btn" class="btn btn-outline-secondary rounded-start-3 rounded-0 flex-fill" title="Importar Excel" type="button" data-bs-toggles="tooltip" data-bs-placement="top" data-bs-title="Importar Excel">
                     <i class="bi bi-file-earmark-excel-fill"></i>
                   </button>
-                  <button id="download-excel-btn" class="btn btn-outline-success rounded-0 flex-fill" title="Descargar Excel" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Descargar Excel">
+                  <button id="download-excel-btn" class="btn btn-outline-success rounded-0 flex-fill" title="Descargar Excel" type="button" data-bs-toggles="tooltip" data-bs-placement="top" data-bs-title="Descargar Excel">
                     <i class="bi bi-file-earmark-excel-fill"></i>
                   </button>
-                  <button id="download-img-btn" class="btn btn-outline-primary rounded-end-3 rounded-0 flex-fill" title="Descargar imagen" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Descargar imagen">
+                  <button id="download-img-btn" class="btn btn-outline-primary rounded-end-3 rounded-0 flex-fill" title="Descargar imagen" type="button" data-bs-toggles="tooltip" data-bs-placement="top" data-bs-title="Descargar imagen">
                     <i class="bi bi-file-image-fill"></i>
                   </button>
                 </div>
@@ -197,13 +197,13 @@
             <input id="search-input" class="form-control form-control-sm mb-1 rounded-3" type="text" placeholder="Buscar producto..." autocomplete="off" />
             <div class="btn-group w-100" role="group">
               <!-- Botones del panel lateral -->
-              <button id="new-product-btn" class="btn btn-outline-primary btn-sm rounded-start-3" title="Crear nuevo producto" type="button" data-bs-toggle="modal" data-bs-target="#newProductModal" data-bs-placement="bottom" data-bs-title="Crear nuevo producto">
+              <button id="new-product-btn" class="btn btn-outline-primary btn-sm rounded-start-3" title="Crear nuevo producto" type="button" data-bs-toggle="modal" data-bs-target="#newProductModal">
                 <i class="bi bi-cookie"></i>
               </button>
-              <button id="upload-file-btn" class="btn btn-outline-secondary btn-sm rounded-0" title="Subir productos" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom">
+              <button id="upload-file-btn" class="btn btn-outline-secondary btn-sm rounded-0" title="Subir productos" type="button" data-bs-toggles="tooltip" data-bs-placement="bottom">
                 <i class="bi bi-file-arrow-up"></i>
               </button>
-              <button id="download-file-btn" class="btn btn-outline-success btn-sm rounded-end-3" title="Bajar productos" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom">
+              <button id="download-file-btn" class="btn btn-outline-success btn-sm rounded-end-3" title="Bajar productos" type="button" data-bs-toggles="tooltip" data-bs-placement="bottom">
                 <i class="bi bi-file-arrow-down-fill"></i>
               </button>
             </div>
@@ -308,5 +308,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script type="module" src="/js/main.js"></script>
+    // Inicialización de tooltips de bootstrap de la forma básica
+    <script>
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggles="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
   </body>
 </html>
