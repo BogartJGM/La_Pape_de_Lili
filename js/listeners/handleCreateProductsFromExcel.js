@@ -55,6 +55,14 @@ export function handleCreateProductFromExcel() {
       const worksheet = workbook.Sheets[firstSheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
+
+      // Vaciar el contenedor de productos antes de añadir nuevos y eliminar datos de localStorage
+      const container = document.getElementById("available-products");
+      if (container) {
+        container.innerHTML = "";
+      }
+      localStorage.removeItem("availableProducts");
+
       // Procesar jsonData para crear productos
       jsonData.forEach((row, index) => {
         if (index === 0) return; // Saltar encabezado
