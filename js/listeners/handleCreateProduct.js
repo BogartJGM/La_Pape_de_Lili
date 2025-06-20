@@ -53,7 +53,7 @@ function addProductCardToDOM(productData) {
       productNode.classList.remove("grow-animate");
     }, 200);
 
-    container.insertBefore(productNode, container.firstChild);
+    container.appendChild(productNode);
     // Guardar en localStorage
     const key = "availableProducts";
     const products = JSON.parse(localStorage.getItem(key)) || [];
