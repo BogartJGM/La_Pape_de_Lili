@@ -237,35 +237,19 @@ export function createProductCardElement(productData) {
 
     // Manejar clicks en los botones del popover
     popoverContent.querySelector('[data-action="confirm"]').addEventListener("click", () => {
-      // AÑADIR LA CLASE DE ANIMACIÓN
-      cardDiv.classList.add("shrink-out");
+      // Aplicar la animación de salida
+      cardDiv.classList.add("card-exit-animate");
 
-      // Esperamos al final de la transición (0.3s) para luego borrar en el DOM
-      cardDiv.addEventListener("transitionend", function handler(event) {
-        // Nos aseguramos de reaccionar solo al transform o la opacidad
-        if (event.propertyName === "transform" || event.propertyName === "opacity") {
-          // Eliminar elemento
+      // Escuchar el fin de la animación para eliminar del DOM y storage
+      cardDiv.addEventListener("animationend", function handler(e) {
+        if (e.animationName === "cardRemove") {
           cardDiv.remove();
-          // Eliminar del storage
           removeProductFromLocalStorage(productData.productName);
-          // Limpiar popover
           popover.hide();
           deleteButton._popoverInstance = null;
-          // Quitamos el listener (para no duplicar)
-          cardDiv.removeEventListener("transitionend", handler);
+          cardDiv.removeEventListener("animationend", handler);
         }
       });
-
-      // En caso de que el navegador no dispare 'transitionend', forzamos un fallback
-      setTimeout(() => {
-        if (deleteButton._popoverInstance) {
-          // Por seguridad, en 350ms forzamos la eliminación
-          cardDiv.remove();
-          removeProductFromLocalStorage(productData.productName);
-          popover.hide();
-          deleteButton._popoverInstance = null;
-        }
-      }, 350);
     });
 
     popoverContent.querySelector('[data-action="cancel"]').addEventListener("click", () => {
@@ -348,18 +332,25 @@ function ensureAtLeastOneChecked(changedCheckbox, otherCheckbox) {
 }
 
 function addProductToSelectedProducts(productData) {
-  // A espera de crear el componente tr para productos seleccionados
   const selectedProductRow = createSelectedProductRow(productData);
-
   insertElementIntoContainer(selectedProductRow, document.getElementById("products-body"));
   selectedProductRow.scrollIntoView({ block: "center", behavior: "smooth" });
+
+  // Aplicamos ambas animaciones a cada <td>
+  const tds = Array.from(selectedProductRow.querySelectorAll("td"));
+  tds.forEach((td) => {
+    td.classList.add("td-combined-animate");
+    td.addEventListener("animationend", function cleanup(e) {
+      if (e.animationName === "popIn" || e.animationName === "td-flash-bg") {
+        td.classList.remove("td-combined-animate", "td-pop-in", "td-flash-animate");
+        td.removeEventListener("animationend", cleanup);
+      }
+    });
+  });
+
   updateTotals(productData.economicQualityPrice * productData.quantity, productData.highQualityPrice * productData.quantity);
 }
 
-/**
- * Elimina un producto de localStorage por su nombre.
- * @param {string} productName
- */
 function removeProductFromLocalStorage(productName) {
   const key = "availableProducts";
   const products = JSON.parse(localStorage.getItem(key)) || [];
