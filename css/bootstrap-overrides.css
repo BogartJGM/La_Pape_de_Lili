@@ -11,3 +11,10 @@
   box-shadow: none;
   border-color: black;
 }
+
+#notes-field {
+  min-height: 3rem;      /* o el alto inicial que quieras */
+  height: auto;          /* deja que JS calcule la altura */
+  overflow-y: hidden;    /* quita la barra de scroll */
+  resize: none;          /* opcional: impide que el usuario cambie el tamaño a mano */
+}

@@ -12,6 +12,7 @@ import { handleToggleAsideBtnListener } from "./listeners/handleToggleAside.js";
 import { handleQuotationDatesListener } from "./listeners/handleQuotationDates.js";
 import { disableAltKeyGlobally } from "./helpers/disableAltKey.js";
 import { initFocus } from "./helpers/focusHelpers.js";
+import { textareaAutosize } from "./helpers/textareaAutosize.js";
 
 function main() {
   handleCreateProductBtnListener();
@@ -28,6 +29,7 @@ function main() {
   handleQuotationDatesListener();
   disableAltKeyGlobally();
   initFocus();
+  textareaAutosize();
 }
 
 main();
