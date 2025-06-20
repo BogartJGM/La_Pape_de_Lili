@@ -54,6 +54,10 @@ function addProductCardToDOM(productData) {
     }, 200);
 
     container.appendChild(productNode);
+
+    // Hacer scroll al nuevo producto centrado y suave
+    productNode.scrollIntoView({ block: "center", behavior: "instant" });
+
     // Guardar en localStorage
     const key = "availableProducts";
     const products = JSON.parse(localStorage.getItem(key)) || [];
@@ -65,6 +69,7 @@ function addProductCardToDOM(productData) {
   const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
   modalInstance.hide();
 }
+
 /**
  * Muestra un mensaje de error arriba del modal-header con animación shake.
  */
