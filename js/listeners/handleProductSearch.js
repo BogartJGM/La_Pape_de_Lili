@@ -39,6 +39,16 @@ export function handleProductSearchListener() {
     }
   }
 
+  // Selecciona el primer producto visible si hay texto en el input
+  function selectFirstVisibleCardIfSearchNotEmpty() {
+    if (searchInput.value.trim().length > 0) {
+      const firstVisible = document.querySelector('[data-ref="product-card"]:not([style*="display: none"])');
+      if (firstVisible) {
+        selectCard(firstVisible);
+      }
+    }
+  }
+
   // Maneja la navegación con flechas y enter
   function handleNavigationKeys(e) {
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -145,6 +155,7 @@ export function handleProductSearchListener() {
   searchInput.addEventListener("input", (e) => {
     filterAvailableProducts(e.target.value);
     removeSelection();
+    selectFirstVisibleCardIfSearchNotEmpty(); // <-- Llama aquí la nueva función
   });
 
   // Navegación y cantidad con teclado
