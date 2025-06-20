@@ -18,3 +18,8 @@
   overflow-y: hidden;    /* quita la barra de scroll */
   resize: none;          /* opcional: impide que el usuario cambie el tamaño a mano */
 }
+
+/* en tu CSS global o en un <style> cargado después de Bootstrap */
+.custom-popover .popover-body {
+  padding: 0.8rem 1rem; /* ajusta a tu gusto */
+}

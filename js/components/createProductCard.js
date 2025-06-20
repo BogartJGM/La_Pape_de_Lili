@@ -46,7 +46,6 @@ export function createProductCardElement(productData) {
 
   const deleteButton = document.createElement("button");
   deleteButton.setAttribute("type", "button");
-  deleteButton.setAttribute("title", "Eliminar");
   deleteButton.classList.add("btn", "btn-outline-danger", "remove-product-btn");
 
   const trashIcon = document.createElement("i");
@@ -194,12 +193,95 @@ export function createProductCardElement(productData) {
     quantityInput.value = 1;
     addProductToSelectedProducts(actualProductData);
   }
-  
-  deleteButton.addEventListener("click", () => {
-    cardDiv.remove();
-    removeProductFromLocalStorage(productData.productName);
-  });
 
+  // Popover de confirmación para eliminar
+  deleteButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    // Si ya existe un popover, no crear otro
+    if (deleteButton._popoverInstance) return;
+
+    // Crear contenido del popover
+    const popoverContent = document.createElement("div");
+    popoverContent.className = "text-center";
+    popoverContent.innerHTML = `
+      <div class="mb-2">¿Eliminar producto?</div>
+      <div class="d-flex w-100 gap-1">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger w-50 p-0"
+          data-action="confirm"
+        >
+          Sí
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary w-50 p-0"
+          data-action="cancel"
+        >
+          No
+        </button>
+      </div>
+    `;
+
+    // Crear el popover usando Bootstrap
+    const popover = new bootstrap.Popover(deleteButton, {
+      content: popoverContent,
+      html: true,
+      placement: "top",
+      trigger: "manual",
+      customClass: "shadow-sm rounded-4 custom-popover",
+    });
+
+    popover.show();
+    deleteButton._popoverInstance = popover;
+
+    // Manejar clicks en los botones del popover
+    popoverContent.querySelector('[data-action="confirm"]').addEventListener("click", () => {
+      // AÑADIR LA CLASE DE ANIMACIÓN
+      cardDiv.classList.add("shrink-out");
+
+      // Esperamos al final de la transición (0.3s) para luego borrar en el DOM
+      cardDiv.addEventListener("transitionend", function handler(event) {
+        // Nos aseguramos de reaccionar solo al transform o la opacidad
+        if (event.propertyName === "transform" || event.propertyName === "opacity") {
+          // Eliminar elemento
+          cardDiv.remove();
+          // Eliminar del storage
+          removeProductFromLocalStorage(productData.productName);
+          // Limpiar popover
+          popover.hide();
+          deleteButton._popoverInstance = null;
+          // Quitamos el listener (para no duplicar)
+          cardDiv.removeEventListener("transitionend", handler);
+        }
+      });
+
+      // En caso de que el navegador no dispare 'transitionend', forzamos un fallback
+      setTimeout(() => {
+        if (deleteButton._popoverInstance) {
+          // Por seguridad, en 350ms forzamos la eliminación
+          cardDiv.remove();
+          removeProductFromLocalStorage(productData.productName);
+          popover.hide();
+          deleteButton._popoverInstance = null;
+        }
+      }, 350);
+    });
+
+    popoverContent.querySelector('[data-action="cancel"]').addEventListener("click", () => {
+      popover.hide();
+      deleteButton._popoverInstance = null;
+    });
+
+    // Cerrar el popover si se hace click fuera
+    document.addEventListener("mousedown", function handler(ev) {
+      if (!deleteButton.contains(ev.target) && !popoverContent.contains(ev.target)) {
+        popover.hide();
+        deleteButton._popoverInstance = null;
+        document.removeEventListener("mousedown", handler);
+      }
+    });
+  });
 
   addButton.addEventListener("click", handleAddProduct);
 
@@ -270,6 +352,7 @@ function addProductToSelectedProducts(productData) {
   const selectedProductRow = createSelectedProductRow(productData);
 
   insertElementIntoContainer(selectedProductRow, document.getElementById("products-body"));
+  selectedProductRow.scrollIntoView({ block: "center", behavior: "smooth" });
   updateTotals(productData.economicQualityPrice * productData.quantity, productData.highQualityPrice * productData.quantity);
 }
 
@@ -280,8 +363,6 @@ function addProductToSelectedProducts(productData) {
 function removeProductFromLocalStorage(productName) {
   const key = "availableProducts";
   const products = JSON.parse(localStorage.getItem(key)) || [];
-  const updatedProducts = products.filter(
-    (p) => p.productName !== productName
-  );
+  const updatedProducts = products.filter((p) => p.productName !== productName);
   localStorage.setItem(key, JSON.stringify(updatedProducts));
 }

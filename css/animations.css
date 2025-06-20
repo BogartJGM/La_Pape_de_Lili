@@ -46,3 +46,10 @@
 .grow-animate {
   animation: growIn 0.2s ease-out;
 }
+
+/* Clase que reduce la tarjeta a cero tamaño y opacidad */
+.shrink-out {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: scale(0);
+  opacity: 0;
+}
