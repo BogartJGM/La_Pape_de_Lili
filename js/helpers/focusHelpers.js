@@ -12,5 +12,16 @@ export function initFocus() {
     document.getElementById("product-name").focus();
   });
 
+  const discountModal = document.getElementById("discountModal");
+  discountModal.addEventListener("shown.bs.modal", () => {
+    const firstInput = discountModal.querySelector("#discount-input");
+    if (firstInput) firstInput.focus();
+  });
+
+  const changeQntyModal = document.getElementById("changeQntyModal");
+  changeQntyModal.addEventListener("shown.bs.modal", () => {
+    const firstInput = changeQntyModal.querySelector("#change-qnty-input");
+    if (firstInput) firstInput.focus();
+  });
 }
   

@@ -117,6 +117,7 @@ export function handleProductSearchListener() {
           } else {
             quantityInput.value = e.key;
           }
+          // Checarrr
           quantityInput.setSelectionRange(quantityInput.value.length, quantityInput.value.length);
         }
         if (isBackspace) {

@@ -25,7 +25,7 @@ export function createProductCardElement(productData) {
   const cardDiv = document.createElement("div");
   cardDiv.classList.add("card", "border", "border-light-subtle", "rounded-4", "shadow-sm", "mb-2");
   cardDiv.dataset.ref = "product-card";
-  cardDiv.dataset.productFullName = productData.productName;
+  cardDiv.dataset.productFullName = `${productData.productName} ${productData.economicQualityName} ${productData.highQualityName}`;
 
   // Cuerpo de la tarjeta
   const cardBody = document.createElement("div");

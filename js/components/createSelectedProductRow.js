@@ -121,7 +121,7 @@ export function createSelectedProductRow(productData) {
 
   // 5. Marca económica
   const tdBrandEcon = document.createElement("td");
-  tdBrandEcon.className = "text-muted text-truncate";
+  tdBrandEcon.className = "text-muted text-truncate text-start ps-2";
   tdBrandEcon.title = productData.economicQualityName;
   tdBrandEcon.textContent = productData.economicQualityName;
 
@@ -137,7 +137,7 @@ export function createSelectedProductRow(productData) {
 
   // 8. Marca alta
   const tdBrandHigh = document.createElement("td");
-  tdBrandHigh.className = "text-muted text-truncate";
+  tdBrandHigh.className = "text-muted text-truncate text-start ps-2";
   tdBrandHigh.title = productData.highQualityName;
   tdBrandHigh.textContent = productData.highQualityName;
 
