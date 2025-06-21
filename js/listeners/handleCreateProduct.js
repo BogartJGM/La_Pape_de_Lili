@@ -65,7 +65,7 @@ function addProductCardToDOM(productData) {
     localStorage.setItem(key, JSON.stringify(products));
   }
 
-  const modalElement = document.getElementById("newProductModal");
+  const modalElement = document.getElementById("new-product-modal");
   const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
   modalInstance.hide();
 }
@@ -75,7 +75,7 @@ function addProductCardToDOM(productData) {
  */
 function showModalError(message) {
   removeModalError();
-  const modal = document.getElementById("newProductModal");
+  const modal = document.getElementById("new-product-modal");
   if (!modal) return;
   const modalHeader = modal.querySelector(".modal-header");
   if (!modalHeader) return;
@@ -136,7 +136,7 @@ function handleCreateProductBtnListener() {
 }
 
 // Elimina el mensaje de error si el modal se cierra
-const newProductModal = document.getElementById("newProductModal");
+const newProductModal = document.getElementById("new-product-modal");
 if (newProductModal) {
   newProductModal.addEventListener("hidden.bs.modal", () => {
     removeModalError();

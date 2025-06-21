@@ -44,11 +44,18 @@ export function handleImportQuotationFromExcel() {
           const row = datos.find(r => r[0] === campo);
           return row ? row[1] : "";
         };
-        document.getElementById("client-name").value = getValue("Nombre del cliente");
-        document.getElementById("school-name").value = getValue("Nombre de la escuela");
-        document.getElementById("quotation-starting-date").value = getValue("Fecha de inicio");
-        document.getElementById("quotation-end-date").value = getValue("Fecha de fin");
-        document.getElementById("notes-field").value = getValue("Notas");
+        setTimeout(() => {
+          document.getElementById("client-name").value = getValue("Nombre del cliente");
+          document.getElementById("school-name").value = getValue("Nombre de la escuela");
+          document.getElementById("quotation-starting-date").value = getValue("Fecha de inicio");
+          document.getElementById("quotation-end-date").value = getValue("Fecha de fin");
+          const textAreaNotes = document.getElementById("notes-field");
+          textAreaNotes.value = getValue("Notas");
+
+          // Forzar evento `input` para que dispare el autoResize
+          const event = new Event('input', { bubbles: true });
+          textAreaNotes.dispatchEvent(event);
+        }, 200);
       }
 
       // --- Importar productos desde la hoja principal ---
@@ -67,7 +74,7 @@ export function handleImportQuotationFromExcel() {
 
       // Asume que la primera fila es encabezado
       let totalEco = 0,
-        totalHigh = 0;
+      totalHigh = 0;
       jsonData.forEach((row, index) => {
         if (index === 0) return; // Saltar encabezado
 
@@ -97,6 +104,9 @@ export function handleImportQuotationFromExcel() {
         totalHigh += productData.highQualityPrice * productData.quantity;
       });
 
+      const selectedProductQuantity = document.getElementById("selected-product-quantity");
+      selectedProductQuantity.innerHTML = jsonData.length - 1;
+      
       // Actualizar los totales
       updateTotals(totalEco, totalHigh);
 

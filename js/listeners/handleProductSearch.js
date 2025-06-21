@@ -17,7 +17,7 @@ export function handleProductSearchListener() {
 
   // Elimina selección y animaciones de todas las tarjetas
   function removeSelection() {
-    document.querySelectorAll(`[data-ref="product-card"].${SELECTED_CLASS}`).forEach(el => {
+    document.querySelectorAll(`[data-ref="product-card"].${SELECTED_CLASS}`).forEach((el) => {
       el.classList.remove(SELECTED_CLASS, SHAKE_CLASS, LAST_CLASS);
     });
   }
@@ -82,9 +82,14 @@ export function handleProductSearchListener() {
     if (e.key === "Enter") {
       const selectedCard = document.querySelector(`.${SELECTED_CLASS}`);
       if (selectedCard) {
-        const addBtn = selectedCard.querySelector('.add-product-btn');
+        const addBtn = selectedCard.querySelector(".add-product-btn");
         if (addBtn) {
           addBtn.click();
+
+          removeSelection();
+          searchInput.value = "";
+          filterAvailableProducts("");
+
           setTimeout(() => {
             const rows = document.querySelectorAll('tr[data-ref="selected-product-row"]');
             if (rows.length > 0) {
@@ -107,7 +112,7 @@ export function handleProductSearchListener() {
     const isBackspace = e.key === "Backspace";
 
     if (selectedCard) {
-      const quantityInput = selectedCard.querySelector('.quantity-input');
+      const quantityInput = selectedCard.querySelector(".quantity-input");
       if (quantityInput) {
         if (isNumber) {
           e.preventDefault();

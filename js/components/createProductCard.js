@@ -336,6 +336,9 @@ function addProductToSelectedProducts(productData) {
   insertElementIntoContainer(selectedProductRow, document.getElementById("products-body"));
   selectedProductRow.scrollIntoView({ block: "center", behavior: "smooth" });
 
+  const selectedProductQuantity = document.getElementById("selected-product-quantity");
+  selectedProductQuantity.innerHTML = Number(selectedProductQuantity.innerHTML) + 1;
+
   // Aplicamos ambas animaciones a cada <td>
   const tds = Array.from(selectedProductRow.querySelectorAll("td"));
   tds.forEach((td) => {

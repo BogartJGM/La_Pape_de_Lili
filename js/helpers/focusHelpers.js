@@ -7,18 +7,18 @@ export function initFocus() {
   });
 
   // Focus input product name
-  const newProductModal = document.getElementById("newProductModal");
+  const newProductModal = document.getElementById("new-product-modal");
   newProductModal.addEventListener("shown.bs.modal", () => {
     document.getElementById("product-name").focus();
   });
 
-  const discountModal = document.getElementById("discountModal");
+  const discountModal = document.getElementById("discount-modal");
   discountModal.addEventListener("shown.bs.modal", () => {
     const firstInput = discountModal.querySelector("#discount-input");
     if (firstInput) firstInput.focus();
   });
 
-  const changeQntyModal = document.getElementById("changeQntyModal");
+  const changeQntyModal = document.getElementById("change-qnty-modal");
   changeQntyModal.addEventListener("shown.bs.modal", () => {
     const firstInput = changeQntyModal.querySelector("#change-qnty-input");
     if (firstInput) firstInput.focus();

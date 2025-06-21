@@ -53,6 +53,9 @@ export function createSelectedProductRow(productData) {
     // Actualizar los totales
     subtractFromTotals(amountEcon, amountHigh);
 
+    const selectedProductQuantity = document.getElementById("selected-product-quantity");
+    selectedProductQuantity.innerHTML = Number(selectedProductQuantity.innerHTML) -1;
+
     // Eliminar la fila
     trProduct.remove();
   });
@@ -69,8 +72,8 @@ export function createSelectedProductRow(productData) {
   buttonQty.type = "button";
   buttonQty.textContent = productData.quantity || 1;
   buttonQty.dataset.bsToggle = "modal";
-  buttonQty.dataset.bsTarget = "#changeQntyModal";
-  document.getElementById("changeQntyModal").addEventListener("show.bs.modal", () => {
+  buttonQty.dataset.bsTarget = "#change-qnty-modal";
+  document.getElementById("change-qnty-modal").addEventListener("show.bs.modal", () => {
     // Al abrir el modal, establecer el valor del input con la cantidad actual
     const modalInput = document.getElementById("change-qnty-input");
     modalInput.value = Number(buttonQty.textContent);
@@ -96,7 +99,7 @@ export function createSelectedProductRow(productData) {
       // Actualizar totales
       updateTotalsOnQuantityChange(prevEconAmount, newEconAmount, prevHighAmount, newHighAmount);
     }
-    document.getElementById("changeQntyModal").removeEventListener("hide.bs.modal", handleHideModal);
+    document.getElementById("change-qnty-modal").removeEventListener("hide.bs.modal", handleHideModal);
   };
 
   buttonQty.addEventListener("click", () => {
@@ -105,7 +108,7 @@ export function createSelectedProductRow(productData) {
     modalInput.value = Number(buttonQty.textContent);
 
     // Agregar el listener solo cuando se abre el modal para este botón
-    document.getElementById("changeQntyModal").addEventListener("hide.bs.modal", handleHideModal);
+    document.getElementById("change-qnty-modal").addEventListener("hide.bs.modal", handleHideModal);
   });
   document.getElementById("change-qnty-form").addEventListener("submit", function (event) {
     event.preventDefault();

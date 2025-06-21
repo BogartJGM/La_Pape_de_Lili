@@ -87,7 +87,7 @@
                   <div class="card-body d-flex flex-column justify-content-center">
                     <div class="fw-semibold mb-1 small">Descuento</div>
                     <div class="d-flex justify-content-around small">
-                      <button id="discount-button" class="btn btn-outline-dark btn-sm border-0 p-0 px-2" type="button" data-bs-toggle="modal" data-bs-target="#discountModal" data-discount="10">10%</button>
+                      <button id="discount-button" class="btn btn-outline-dark btn-sm border-0 p-0 px-2" type="button" data-bs-toggle="modal" data-bs-target="#discount-modal" data-discount="10">10%</button>
                     </div>
                   </div>
                 </div>
@@ -128,9 +128,7 @@
           <div class="bg-white mb-1 p-2 rounded-4 shadow-sm flex-grow-1 custom-scroll-area">
             <div class="bg-white p-2 pb-0 sticky-top custom-sticky-shadow">
               <div class="d-flex align-items-center justify-content-between">
-                <div class="flex-grow-1">
-                  <span class="fw-semibold small">Productos seleccionados</span>
-                </div>
+                <div class="flex-grow-1"><span class="fw-semibold small">Productos seleccionados: </span><span id="selected-product-quantity" class="fw-bold">0</span></div>
                 <div class="btn-group btn-group-sm d-flex flex-grow-1 ms-2" role="group">
                   <!-- Botones de acciones de productos -->
                   <button id="import-excel-btn" class="btn btn-outline-secondary rounded-start-3 rounded-0 flex-fill" title="Importar Excel" type="button" data-bs-toggles="tooltip" data-bs-placement="top" data-bs-title="Importar Excel">
@@ -207,7 +205,7 @@
             <input id="search-input" class="form-control form-control-sm mb-1 rounded-3" type="text" placeholder="Buscar producto..." autocomplete="off" />
             <div class="btn-group w-100" role="group">
               <!-- Botones del panel lateral -->
-              <button id="new-product-btn" class="btn btn-outline-primary btn-sm rounded-start-3" title="Crear nuevo producto" type="button" data-bs-toggle="modal" data-bs-target="#newProductModal">
+              <button id="new-product-btn" class="btn btn-outline-primary btn-sm rounded-start-3" title="Crear nuevo producto" type="button" data-bs-toggle="modal" data-bs-target="#new-product-modal">
                 <i class="bi bi-cookie"></i>
               </button>
               <button id="upload-file-btn" class="btn btn-outline-secondary btn-sm rounded-0" title="Subir productos" type="button" data-bs-toggles="tooltip" data-bs-placement="bottom">
@@ -224,11 +222,11 @@
     </div>
 
     <!-- Modal para cambiar cantidad de producto -->
-    <div class="modal fade" id="changeQntyModal" tabindex="-1" data-ref="modal-cantidad">
+    <div class="modal fade" id="change-qnty-modal" tabindex="-1" data-ref="modal-cantidad">
       <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
           <div class="modal-header border-0 pb-0">
-            <h6 class="modal-title fw-semibold" id="changeQntyModalLabel"><i class="bi bi-123 me-1 text-primary"></i>Cambiar cantidad</h6>
+            <h6 class="modal-title fw-semibold" id="change-qnty-modal-label"><i class="bi bi-123 me-1 text-primary"></i>Cambiar cantidad</h6>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body pt-2 pb-3 px-3">
@@ -245,7 +243,7 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="discountModal" tabindex="-1" data-ref="modal-descuento">
+    <div class="modal fade" id="discount-modal" tabindex="-1" data-ref="modal-descuento">
       <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
           <div class="modal-header border-0 pb-0">
@@ -267,7 +265,7 @@
       </div>
     </div>
     <!-- Modal para crear nuevo producto -->
-    <div class="modal fade" id="newProductModal" tabindex="-1" data-ref="modal-nuevo-producto">
+    <div class="modal fade" id="new-product-modal" tabindex="-1" data-ref="modal-nuevo-producto">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-0 rounded-4 border-0 shadow-sm">
           <div class="modal-header border-0 pb-0">
@@ -319,8 +317,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script type="module" src="./js/main.js"></script>
     <script>
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggles="tooltip"]')
-      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggles="tooltip"]');
+      const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl));
     </script>
   </body>
 </html>
