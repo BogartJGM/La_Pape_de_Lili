@@ -13,6 +13,7 @@ import { handleQuotationDatesListener } from "./listeners/handleQuotationDates.j
 import { disableAltKeyGlobally } from "./helpers/disableAltKey.js";
 import { initFocus } from "./helpers/focusHelpers.js";
 import { textareaAutosize } from "./helpers/textareaAutosize.js";
+import { handleDownloadQuotationImg } from "./listeners/handleDownloadQuotationImg.js";
 
 function main() {
   handleCreateProductBtnListener();
@@ -30,6 +31,7 @@ function main() {
   disableAltKeyGlobally();
   initFocus();
   textareaAutosize();
+  handleDownloadQuotationImg();
 }
 
 main();
