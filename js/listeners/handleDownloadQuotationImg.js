@@ -147,7 +147,7 @@ export function handleDownloadQuotationImg() {
     // Usa html2canvas para convertir el contenedor en imagen y descargarla
     // Configuración de html2canvas para calidad más alta
     const containerElement = container.querySelector("#container");
-    html2canvas(containerElement, { scale: 3 }).then((canvas) => {
+    html2canvas(containerElement, { scale: 1.5 }).then((canvas) => {
       const link = document.createElement("a");
       link.download = "cotizacion.png";
       link.href = canvas.toDataURL();
