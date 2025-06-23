@@ -24,7 +24,7 @@ export function createSelectedProductRow(productData) {
   trProduct.dataset.priceEcon = productData.economicQualityPrice.toFixed(2);
   trProduct.dataset.amountEcon = (productData.quantity * Number(productData.economicQualityPrice)).toFixed(2);
   trProduct.dataset.econCheckboxChecked = productData.econCheckboxChecked ? "true" : "false";
-  trProduct.dataset.brandhigh = productData.highQualityName;
+  trProduct.dataset.brandHigh = productData.highQualityName;
   trProduct.dataset.priceHigh = Number(productData.highQualityPrice).toFixed(2);
   trProduct.dataset.amountHigh = (productData.quantity * Number(productData.highQualityPrice)).toFixed(2);
   trProduct.dataset.highCheckboxChecked = productData.highCheckboxChecked ? "true" : "false";
