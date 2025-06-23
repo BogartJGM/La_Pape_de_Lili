@@ -1,5 +1,5 @@
 export function handleDownloadQuotationImg() {
-  const imgLetterheadSrc = "../../assets/letterhead.png";
+  const imgLetterheadSrc = "/assets/letterhead.png";
   const downloadImgBtn = document.getElementById("download-img-btn");
 
   downloadImgBtn.addEventListener("click", () => {
