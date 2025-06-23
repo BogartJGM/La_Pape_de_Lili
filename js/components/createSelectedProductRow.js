@@ -24,7 +24,7 @@ export function createSelectedProductRow(productData) {
   trProduct.dataset.priceEcon = productData.economicQualityPrice.toFixed(2);
   trProduct.dataset.amountEcon = (productData.quantity * Number(productData.economicQualityPrice)).toFixed(2);
   trProduct.dataset.econCheckboxChecked = productData.econCheckboxChecked ? "true" : "false";
-  trProduct.dataset.brandhigh = productData.highQualityName;
+  trProduct.dataset.brandHigh = productData.highQualityName;
   trProduct.dataset.priceHigh = Number(productData.highQualityPrice).toFixed(2);
   trProduct.dataset.amountHigh = (productData.quantity * Number(productData.highQualityPrice)).toFixed(2);
   trProduct.dataset.highCheckboxChecked = productData.highCheckboxChecked ? "true" : "false";
@@ -53,6 +53,9 @@ export function createSelectedProductRow(productData) {
     // Actualizar los totales
     subtractFromTotals(amountEcon, amountHigh);
 
+    const selectedProductQuantity = document.getElementById("selected-product-quantity");
+    selectedProductQuantity.innerHTML = Number(selectedProductQuantity.innerHTML) -1;
+
     // Eliminar la fila
     trProduct.remove();
   });
@@ -69,8 +72,8 @@ export function createSelectedProductRow(productData) {
   buttonQty.type = "button";
   buttonQty.textContent = productData.quantity || 1;
   buttonQty.dataset.bsToggle = "modal";
-  buttonQty.dataset.bsTarget = "#changeQntyModal";
-  document.getElementById("changeQntyModal").addEventListener("show.bs.modal", () => {
+  buttonQty.dataset.bsTarget = "#change-qnty-modal";
+  document.getElementById("change-qnty-modal").addEventListener("show.bs.modal", () => {
     // Al abrir el modal, establecer el valor del input con la cantidad actual
     const modalInput = document.getElementById("change-qnty-input");
     modalInput.value = Number(buttonQty.textContent);
@@ -96,7 +99,7 @@ export function createSelectedProductRow(productData) {
       // Actualizar totales
       updateTotalsOnQuantityChange(prevEconAmount, newEconAmount, prevHighAmount, newHighAmount);
     }
-    document.getElementById("changeQntyModal").removeEventListener("hide.bs.modal", handleHideModal);
+    document.getElementById("change-qnty-modal").removeEventListener("hide.bs.modal", handleHideModal);
   };
 
   buttonQty.addEventListener("click", () => {
@@ -105,7 +108,7 @@ export function createSelectedProductRow(productData) {
     modalInput.value = Number(buttonQty.textContent);
 
     // Agregar el listener solo cuando se abre el modal para este botón
-    document.getElementById("changeQntyModal").addEventListener("hide.bs.modal", handleHideModal);
+    document.getElementById("change-qnty-modal").addEventListener("hide.bs.modal", handleHideModal);
   });
   document.getElementById("change-qnty-form").addEventListener("submit", function (event) {
     event.preventDefault();
@@ -121,7 +124,7 @@ export function createSelectedProductRow(productData) {
 
   // 5. Marca económica
   const tdBrandEcon = document.createElement("td");
-  tdBrandEcon.className = "text-muted text-truncate";
+  tdBrandEcon.className = "text-muted text-truncate text-start ps-2";
   tdBrandEcon.title = productData.economicQualityName;
   tdBrandEcon.textContent = productData.economicQualityName;
 
@@ -137,7 +140,7 @@ export function createSelectedProductRow(productData) {
 
   // 8. Marca alta
   const tdBrandHigh = document.createElement("td");
-  tdBrandHigh.className = "text-muted text-truncate";
+  tdBrandHigh.className = "text-muted text-truncate text-start ps-2";
   tdBrandHigh.title = productData.highQualityName;
   tdBrandHigh.textContent = productData.highQualityName;
 

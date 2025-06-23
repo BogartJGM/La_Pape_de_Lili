@@ -8,7 +8,7 @@ export function handleDiscountChangeListener() {
   const discountForm = document.getElementById("discount-form");
   const discountInput = document.getElementById("discount-input");
   const discountButton = document.getElementById("discount-button");
-  const discountModal = document.getElementById("discountModal");
+  const discountModal = document.getElementById("discount-modal");
 
   if (!discountForm || !discountInput || !discountButton || !discountModal) return;
 

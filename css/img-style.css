@@ -1,0 +1,183 @@
+@font-face {
+  font-family: "Marykate";
+  src: url("../assets/fonts/Marykate.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 50;
+}
+
+div#container th {
+  font-weight: 50;
+}
+
+div#container .default-gray {
+  background-color: #f4f4f4;
+}
+
+div#container .r2 {
+  border-radius: 2rem;
+}
+
+div#container .letterhead {
+  width: 95%;
+  margin: auto;
+  height: auto;
+  display: block;
+}
+
+#container {
+  width: 900px;
+  padding: 0 20px;
+  margin: auto;
+}
+
+div#container .client-data-table {
+  width: 95%;
+  margin: auto;
+  font-family: "Open Sans";
+  font-size: 14px;
+}
+
+div#container .client-data-table td:nth-child(1) {
+  width: 280px;
+}
+
+div#container .client-data-table td:nth-child(3) {
+  width: 310px;
+  text-align: center;
+  font-size: 14px;
+}
+
+div#container .client-data-table td > span:nth-child(1) {
+  font-weight: 650;
+}
+
+div#container .prices-table {
+  margin-left: auto;
+}
+
+div#container .products-table,
+div#container .notes-table {
+  width: 100%;
+  margin: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+div#container .client-data-table,
+div#container .notes-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  padding: 0.5rem 1.6rem;
+}
+
+div#container .quantity-style {
+  width: 30px !important;
+}
+
+div#container .quality-header {
+  color: white;
+  font-family: "Marykate";
+  font-size: 22px;
+  font-weight: 100;
+  width: 30%;
+  padding: 5px;
+  text-align: center;
+}
+
+div#container .q-high-color {
+  background-color: #004aad;
+}
+
+div#container .q-eco-color {
+  background-color: #2fb843;
+}
+
+div#container .product-details {
+  font-family: "Marykate";
+  padding: 3px;
+  text-align: center;;
+}
+
+div#container .left-r {
+  border-radius: 0;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+}
+
+div#container .middle-r {
+  border-radius: 0;
+}
+
+div#container .right-r {
+  border-radius: 0;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+
+div#container .product td {
+  border-bottom: 1px solid black;
+  font-size: 14px;
+}
+
+div#container .price-concept {
+  font-family: Marykate;
+  font-weight: 100;
+}
+
+div#container .price-value {
+  font-family: "Open Sans";
+  font-size: 12px;
+}
+
+div#container .discount {
+  color: red;
+  font-size: 20px;
+}
+
+div#container .text-center {
+  text-align: center;
+}
+
+div#container .text-right {
+  text-align: right;
+  padding-right: 30px;
+}
+
+div#container .prices-table {
+  border-collapse: separate;
+  border-spacing: 0 2px;
+}
+
+div#container .prices-table td,
+div#container .prices-table th {
+  padding: 5px;
+}
+
+div#container .prices-table tr th:nth-child(1) {
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  text-align: left;
+  padding-left: 12px;
+}
+
+div#container .prices-table tr td:nth-child(3) {
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  padding-right: 12px;
+}
+
+div#container .price-value {
+  text-align: right;
+  font-weight: 700;
+}
+
+div#container .price-value.discount {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+div#container .notes-table {
+  font-family: "Open Sans";
+  font-weight: bold;
+}

@@ -1,4 +1,8 @@
 /* product-card-selection.css */
+
+/* ----------------------------------------
+   Selección de tarjeta (outline animado)
+   ---------------------------------------- */
 .product-card-selected {
   outline: 2px solid #0d6efd !important;
   outline-offset: 2px;
@@ -7,42 +11,85 @@
 .product-card-selected.product-card-last {
   outline-color: #dc3545 !important;
 }
-@keyframes shake {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-5px); }
-  40% { transform: translateX(5px); }
-  60% { transform: translateX(-5px); }
-  80% { transform: translateX(5px); }
-  100% { transform: translateX(0); }
-}
-.product-card-shake {
-  animation: shake 0.3s;
-}
 
-@keyframes shake {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-4px); }
-  40% { transform: translateX(4px); }
-  60% { transform: translateX(-3px); }
-  80% { transform: translateX(3px); }
-  100% { transform: translateX(0); }
-}
-
-.shake {
-  animation: shake 0.4s;
-}
-
-@keyframes growIn {
+/* ----------------------------------------
+   Animación pop-in: escala + desplazamiento
+   ---------------------------------------- */
+@keyframes popIn {
   from {
-    transform: scale(0.5);
-    opacity: 0.2;
+    transform: scale(0.6) translateY(-10px);
+    opacity: 0;
   }
   to {
-    transform: scale(1);
+    transform: scale(1) translateY(0);
     opacity: 1;
   }
 }
 
-.grow-animate {
-  animation: growIn 0.2s ease-out;
+/* ----------------------------------------
+   Flash de fondo al insertar td
+   ---------------------------------------- */
+@keyframes td-flash-bg {
+  from {
+    background-color: #f5f5f5;
+  }
+  to {
+    background-color: #fff;
+  }
+}
+
+/* ----------------------------------------
+   Animaciones en td
+   ---------------------------------------- */
+.td-pop-in {
+  animation: popIn 0.35s ease-out;
+}
+
+.td-flash-animate {
+  animation: td-flash-bg 0.5s ease-in-out;
+}
+
+/* combinación popIn + flash con ligero delay */
+.td-combined-animate {
+  animation:
+    popIn      0.35s ease-out,
+    td-flash-bg 0.5s 0.1s ease-in-out;
+}
+
+/* ----------------------------------------
+   Animación de salida (remove card)
+   ---------------------------------------- */
+@keyframes cardRemove {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    height: auto;
+    margin-bottom: 0.5rem; /* coincide con .mb-2 */
+  }
+  50% {
+    transform: scale(0.8);
+    opacity: 0.6;
+    height: auto;
+    margin-bottom: 0.5rem;
+  }
+  100% {
+    transform: scale(0.4);
+    opacity: 0;
+    height: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Clase que activa animación de salida */
+.card-exit-animate {
+  animation: cardRemove 0.45s ease-in forwards;
+}
+
+/* ----------------------------------------
+   (Opcional) Animación de shrink original
+   ---------------------------------------- */
+.shrink-out {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: scale(0);
+  opacity: 0;
 }

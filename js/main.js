@@ -11,6 +11,9 @@ import { handleImportQuotationFromExcel } from "./listeners/handleImportQuotatio
 import { handleToggleAsideBtnListener } from "./listeners/handleToggleAside.js";
 import { handleQuotationDatesListener } from "./listeners/handleQuotationDates.js";
 import { disableAltKeyGlobally } from "./helpers/disableAltKey.js";
+import { initFocus } from "./helpers/focusHelpers.js";
+import { textareaAutosize } from "./helpers/textareaAutosize.js";
+import { handleDownloadQuotationImg } from "./listeners/handleDownloadQuotationImg.js";
 
 function main() {
   handleCreateProductBtnListener();
@@ -26,6 +29,9 @@ function main() {
   handleToggleAsideBtnListener();
   handleQuotationDatesListener();
   disableAltKeyGlobally();
+  initFocus();
+  textareaAutosize();
+  handleDownloadQuotationImg();
 }
 
 main();

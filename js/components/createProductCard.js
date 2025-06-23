@@ -25,7 +25,7 @@ export function createProductCardElement(productData) {
   const cardDiv = document.createElement("div");
   cardDiv.classList.add("card", "border", "border-light-subtle", "rounded-4", "shadow-sm", "mb-2");
   cardDiv.dataset.ref = "product-card";
-  cardDiv.dataset.productFullName = productData.productName;
+  cardDiv.dataset.productFullName = `${productData.productName} ${productData.economicQualityName} ${productData.highQualityName}`;
 
   // Cuerpo de la tarjeta
   const cardBody = document.createElement("div");
@@ -46,7 +46,6 @@ export function createProductCardElement(productData) {
 
   const deleteButton = document.createElement("button");
   deleteButton.setAttribute("type", "button");
-  deleteButton.setAttribute("title", "Eliminar");
   deleteButton.classList.add("btn", "btn-outline-danger", "remove-product-btn");
 
   const trashIcon = document.createElement("i");
@@ -194,12 +193,79 @@ export function createProductCardElement(productData) {
     quantityInput.value = 1;
     addProductToSelectedProducts(actualProductData);
   }
-  
-  deleteButton.addEventListener("click", () => {
-    cardDiv.remove();
-    removeProductFromLocalStorage(productData.productName);
-  });
 
+  // Popover de confirmación para eliminar
+  deleteButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    // Si ya existe un popover, no crear otro
+    if (deleteButton._popoverInstance) return;
+
+    // Crear contenido del popover
+    const popoverContent = document.createElement("div");
+    popoverContent.className = "text-center";
+    popoverContent.innerHTML = `
+      <div class="mb-2">¿Eliminar producto?</div>
+      <div class="d-flex w-100 gap-1">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger w-50 p-0"
+          data-action="confirm"
+        >
+          Sí
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary w-50 p-0"
+          data-action="cancel"
+        >
+          No
+        </button>
+      </div>
+    `;
+
+    // Crear el popover usando Bootstrap
+    const popover = new bootstrap.Popover(deleteButton, {
+      content: popoverContent,
+      html: true,
+      placement: "top",
+      trigger: "manual",
+      customClass: "shadow-sm rounded-4 custom-popover",
+    });
+
+    popover.show();
+    deleteButton._popoverInstance = popover;
+
+    // Manejar clicks en los botones del popover
+    popoverContent.querySelector('[data-action="confirm"]').addEventListener("click", () => {
+      // Aplicar la animación de salida
+      cardDiv.classList.add("card-exit-animate");
+
+      // Escuchar el fin de la animación para eliminar del DOM y storage
+      cardDiv.addEventListener("animationend", function handler(e) {
+        if (e.animationName === "cardRemove") {
+          cardDiv.remove();
+          removeProductFromLocalStorage(productData.productName);
+          popover.hide();
+          deleteButton._popoverInstance = null;
+          cardDiv.removeEventListener("animationend", handler);
+        }
+      });
+    });
+
+    popoverContent.querySelector('[data-action="cancel"]').addEventListener("click", () => {
+      popover.hide();
+      deleteButton._popoverInstance = null;
+    });
+
+    // Cerrar el popover si se hace click fuera
+    document.addEventListener("mousedown", function handler(ev) {
+      if (!deleteButton.contains(ev.target) && !popoverContent.contains(ev.target)) {
+        popover.hide();
+        deleteButton._popoverInstance = null;
+        document.removeEventListener("mousedown", handler);
+      }
+    });
+  });
 
   addButton.addEventListener("click", handleAddProduct);
 
@@ -266,22 +332,31 @@ function ensureAtLeastOneChecked(changedCheckbox, otherCheckbox) {
 }
 
 function addProductToSelectedProducts(productData) {
-  // A espera de crear el componente tr para productos seleccionados
   const selectedProductRow = createSelectedProductRow(productData);
-
   insertElementIntoContainer(selectedProductRow, document.getElementById("products-body"));
+  selectedProductRow.scrollIntoView({ block: "center", behavior: "smooth" });
+
+  const selectedProductQuantity = document.getElementById("selected-product-quantity");
+  selectedProductQuantity.innerHTML = Number(selectedProductQuantity.innerHTML) + 1;
+
+  // Aplicamos ambas animaciones a cada <td>
+  const tds = Array.from(selectedProductRow.querySelectorAll("td"));
+  tds.forEach((td) => {
+    td.classList.add("td-combined-animate");
+    td.addEventListener("animationend", function cleanup(e) {
+      if (e.animationName === "popIn" || e.animationName === "td-flash-bg") {
+        td.classList.remove("td-combined-animate", "td-pop-in", "td-flash-animate");
+        td.removeEventListener("animationend", cleanup);
+      }
+    });
+  });
+
   updateTotals(productData.economicQualityPrice * productData.quantity, productData.highQualityPrice * productData.quantity);
 }
 
-/**
- * Elimina un producto de localStorage por su nombre.
- * @param {string} productName
- */
 function removeProductFromLocalStorage(productName) {
   const key = "availableProducts";
   const products = JSON.parse(localStorage.getItem(key)) || [];
-  const updatedProducts = products.filter(
-    (p) => p.productName !== productName
-  );
+  const updatedProducts = products.filter((p) => p.productName !== productName);
   localStorage.setItem(key, JSON.stringify(updatedProducts));
 }
