@@ -128,7 +128,7 @@ export function handleDownloadQuotationImg() {
           <table class="notes-table default-gray r2">
             <tr>
               <td style="width: 10%;">NOTAS</td>
-              <td><pre style="margin: 0; padding: 0;">${quotationData.notesField}</pre></td>
+              <td style="white-space: pre-line;">${quotationData.notesField}</td>
             </tr>
           </table>
         </div>
