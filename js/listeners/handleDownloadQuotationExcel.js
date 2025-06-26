@@ -62,7 +62,7 @@ export function handleDownloadQuotationExcel() {
         ds.priceEcon || "",
         ds.amountEcon || "",
         ds.econCheckboxChecked || "",
-        ds.brandhigh || "",
+        ds.brandHigh || "",
         ds.priceHigh || "",
         ds.amountHigh || "",
         ds.highCheckboxChecked || ""
