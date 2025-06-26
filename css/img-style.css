@@ -9,6 +9,10 @@ div#container th {
   font-weight: 50;
 }
 
+div#container .product-container {
+  font-family: "Open Sans";
+}
+
 div#container .default-gray {
   background-color: #f4f4f4;
 }
