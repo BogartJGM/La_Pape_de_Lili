@@ -152,9 +152,9 @@ export function handleDownloadQuotationImg() {
 
       let nombreArchivo = "";
       if (quotationData.schoolName) {
-        nombreArchivo = `${quotationData.clientName} - ${quotationData.schoolName}`
+        nombreArchivo = `${quotationData.clientName} - ${quotationData.schoolName}`;
       } else {
-        nombreArchivo = `${quotationData.clientName}`
+        nombreArchivo = `${quotationData.clientName}`;
       }
 
       link.download = `${nombreArchivo}.png`;

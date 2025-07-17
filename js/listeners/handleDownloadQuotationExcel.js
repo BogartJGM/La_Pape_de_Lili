@@ -101,7 +101,12 @@ export function handleDownloadQuotationExcel() {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Cotización");
     XLSX.utils.book_append_sheet(workbook, datosSheet, "Datos");
 
-    const nombreArchivo = `${nombre} - ${escuela}.xlsx`;
+    let nombreArchivo = "";
+    if (escuela) {
+      nombreArchivo = `${nombre} - ${escuela}.xlsx`;
+    } else {
+      nombreArchivo = `${nombre}.xlsx`;
+    }
 
     XLSX.writeFile(workbook, nombreArchivo);
   });
