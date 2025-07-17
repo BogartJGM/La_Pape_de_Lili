@@ -149,7 +149,15 @@ export function handleDownloadQuotationImg() {
     const containerElement = container.querySelector("#container");
     html2canvas(containerElement, { scale: 1.5 }).then((canvas) => {
       const link = document.createElement("a");
-      link.download = "cotizacion.png";
+
+      let nombreArchivo = "";
+      if (quotationData.schoolName) {
+        nombreArchivo = `${quotationData.clientName} - ${quotationData.schoolName}`
+      } else {
+        nombreArchivo = `${quotationData.clientName}`
+      }
+
+      link.download = `${nombreArchivo}.png`;
       link.href = canvas.toDataURL();
       link.click();
       document.body.removeChild(container);
