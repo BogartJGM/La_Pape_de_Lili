@@ -113,15 +113,15 @@ export function handleDownloadQuotationImg() {
             </tr>
             <tr></tr>
             <tr class="default-gray r2">
-              <th class="price-concept">PUEDES APARTAR CON</th>
-              <td class="price-value" style="padding-right: 50px;">$${quotationData.depositHigh}</td>
-              <td class="price-value" style="padding-right: 30px;">$${quotationData.depositEconomical}</td>
-            </tr>
-            <tr></tr>
-            <tr class="default-gray r2">
               <th class="price-concept discount">PRECIO CON DESCUENTO</th>
               <td class="price-value discount" style="padding-right: 50px;">$${quotationData.discountedTotalHigh}</td>
               <td class="price-value discount" style="padding-right: 30px;">$${quotationData.discountedTotalEconomical}</td>
+            </tr>
+            <tr></tr>
+            <tr class="default-gray r2">
+              <th class="price-concept">PUEDES APARTAR CON</th>
+              <td class="price-value" style="padding-right: 50px;">$${quotationData.depositHigh}</td>
+              <td class="price-value" style="padding-right: 30px;">$${quotationData.depositEconomical}</td>
             </tr>
           </table>
           <br />
