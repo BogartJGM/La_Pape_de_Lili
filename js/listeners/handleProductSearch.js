@@ -159,7 +159,7 @@ export function handleProductSearchListener() {
 
   // Filtrado de productos al escribir
   searchInput.addEventListener("input", (e) => {
-    filterAvailableProducts(e.target.value);
+    filterAvailableProducts(e.target.value, "available-products", "product-card");
     removeSelection();
     selectFirstVisibleCardIfSearchNotEmpty(); // <-- Llama aquí la nueva función
   });

@@ -3,6 +3,33 @@ export function handleDownloadQuotationImg() {
   const downloadImgBtn = document.getElementById("download-img-btn");
 
   downloadImgBtn.addEventListener("click", () => {
+    // Validación de campos requeridos en el formulario de datos personales
+    const form = document.getElementById('personal-data-form');
+    if (form) {
+      const requiredInputs = form.querySelectorAll('input[required]');
+      let allFilled = true;
+      requiredInputs.forEach(input => {
+        if (!input.value.trim()) {
+          allFilled = false;
+        }
+      });
+      if (!allFilled) {
+        // Solo abre el accordion si está cerrado
+        const collapseEl = document.getElementById('collapse-personal-data');
+        if (!collapseEl.classList.contains('show')) {
+          new bootstrap.Collapse(collapseEl, { show: true });
+          document.querySelector('[data-bs-target="#collapse-personal-data"]').classList.remove('collapsed');
+        }
+        // Coloca el focus en el input client-name
+        const clientNameInput = document.getElementById('client-name');
+        if (clientNameInput) {
+          setTimeout(() => clientNameInput.focus(), 350); // Espera a que termine la animación
+        }
+        e.preventDefault();
+        return false;
+      }
+    }
+    
     const quotationData = {
       clientName: document.getElementById("client-name").value,
       schoolName: document.getElementById("school-name").value,

@@ -28,6 +28,7 @@ export function createSelectedProductRow(productData) {
   trProduct.dataset.priceHigh = Number(productData.highQualityPrice).toFixed(2);
   trProduct.dataset.amountHigh = (productData.quantity * Number(productData.highQualityPrice)).toFixed(2);
   trProduct.dataset.highCheckboxChecked = productData.highCheckboxChecked ? "true" : "false";
+  trProduct.dataset.productFullName = productData.productName;
 
   // 1. Manejador de arrastre
   const tdDrag = document.createElement("td");

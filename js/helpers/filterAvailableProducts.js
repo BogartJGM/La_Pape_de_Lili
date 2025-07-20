@@ -3,11 +3,11 @@
  * Fuse debería estar importado previamente. En este caso, se asume que Fuse está disponible globalmente.
  * @param {string} searchTerm - El término de búsqueda.
  */
-export function filterAvailableProducts(searchTerm) {
-  const container = document.getElementById("available-products");
+export function filterAvailableProducts(searchTerm, containerId, productRef) {
+  const container = document.getElementById(containerId);
   if (!container) return;
 
-  const cards = Array.from(container.querySelectorAll('[data-ref="product-card"]'));
+  const cards = Array.from(container.querySelectorAll(`[data-ref="${productRef}"]`));
   if (!searchTerm.trim()) {
     // Si no hay búsqueda, mostrar todos
     cards.forEach((card) => (card.style.display = ""));

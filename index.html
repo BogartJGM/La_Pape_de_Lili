@@ -44,7 +44,7 @@
                       <div class="row">
                         <div class="col pe-0">
                           <div class="form-floating">
-                            <input type="date" id="quotation-starting-date" name="quotation-starting-date" class="form-control form-control-sm rounded-3 rounded-end-0" placeholder="Inicio" title="Inicio" />
+                            <input type="date" id="quotation-starting-date" name="quotation-starting-date" class="form-control form-control-sm rounded-3 rounded-end-0" placeholder="Inicio" title="Inicio" tabindex="-1" />
                             <label class="small" for="quotation-starting-date">Inicio</label>
                           </div>
                         </div>
@@ -56,7 +56,7 @@
                         <!-- Contenedor con padding right 0-->
                         <div class="col ps-0">
                           <div class="form-floating">
-                            <input type="date" id="quotation-end-date" name="quotation-end-date" class="form-control form-control-sm rounded-3 rounded-start-0" placeholder="Hasta" title="Hasta" disabled />
+                            <input type="date" id="quotation-end-date" name="quotation-end-date" class="form-control form-control-sm rounded-3 rounded-start-0" placeholder="Hasta" title="Hasta" disabled tabindex="-1" />
                             <label class="small" for="quotation-end-date">Hasta</label>
                           </div>
                         </div>
@@ -131,20 +131,25 @@
           </div>
           <div class="bg-white mb-1 p-2 rounded-4 shadow-sm flex-grow-1 custom-scroll-area">
             <div class="bg-white p-2 pb-0 sticky-top custom-sticky-shadow">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="flex-grow-1"><span class="fw-semibold small">Productos seleccionados: </span><span id="selected-product-quantity" class="fw-bold">0</span></div>
-                <div class="btn-group btn-group-sm d-flex flex-grow-1 ms-2" role="group">
-                  <!-- Botones de acciones de productos -->
-                  <button id="import-excel-btn" class="btn btn-outline-secondary rounded-start-3 rounded-0 flex-fill" title="Importar Excel" type="button" data-bs-toggles="tooltip" data-bs-placement="top" data-bs-title="Importar Excel">
-                    <i class="bi bi-file-earmark-excel-fill"></i>
-                  </button>
-                  <button id="download-excel-btn" class="btn btn-outline-success rounded-0 flex-fill" title="Descargar Excel" type="button" data-bs-toggles="tooltip" data-bs-placement="top" data-bs-title="Descargar Excel">
-                    <i class="bi bi-file-earmark-excel-fill"></i>
-                  </button>
-                  <button id="download-img-btn" class="btn btn-outline-primary rounded-end-3 rounded-0 flex-fill" title="Descargar imagen" type="button" data-bs-toggles="tooltip" data-bs-placement="top" data-bs-title="Descargar imagen">
-                    <i class="bi bi-file-image-fill"></i>
-                  </button>
-                </div>
+              <div class="input-group input-group-sm mb-1">
+                <!-- Addon con el contador -->
+                <span class="input-group-text bg-light border-1 rounded-start-3 px-3">
+                  <i class="bi bi-box-seam me-1"></i>
+                  <span class="fw-semibold small">Sel.:</span>
+                  <span id="selected-product-quantity" class="fw-bold ms-1">0</span>
+                </span>
+                <!-- Campo de búsqueda -->
+                <input id="selected-products-search-input" type="text" class="form-control rounded-0" placeholder="Buscar en productos seleccionados…" autocomplete="off" />
+                <!-- Botones como -->
+                <button id="import-excel-btn" class="btn btn-outline-secondary" type="button" title="Importar Excel">
+                  <i class="bi bi-file-earmark-excel-fill"></i>
+                </button>
+                <button id="download-excel-btn" class="btn btn-outline-success" type="button" title="Descargar Excel">
+                  <i class="bi bi-file-earmark-excel-fill"></i>
+                </button>
+                <button id="download-img-btn" class="btn btn-outline-primary rounded-end-3" type="button" title="Descargar imagen">
+                  <i class="bi bi-file-image-fill"></i>
+                </button>
               </div>
               <table class="table table-sm table-bordered mb-0 text-center custom-table-fixed">
                 <thead>

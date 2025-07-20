@@ -5,12 +5,24 @@
    ---------------------------------------- */
 .product-card-selected {
   outline: 2px solid #0d6efd !important;
-  outline-offset: 2px;
+  outline-offset: -2px;
   transition: outline-color 0.5s;
 }
 .product-card-selected.product-card-last {
   outline-color: #dc3545 !important;
 }
+
+@keyframes shake {
+  0%, 100%   { transform: translateX(0); }
+  25%        { transform: translateX(-0.5px) rotate(-0.25deg); }
+  75%        { transform: translateX(0.5px)  rotate(0.25deg); }
+}
+
+.product-card-selected.product-card-shake {
+  animation: shake 0.3s ease-in-out infinite;
+}
+
+
 
 /* ----------------------------------------
    Animación pop-in: escala + desplazamiento

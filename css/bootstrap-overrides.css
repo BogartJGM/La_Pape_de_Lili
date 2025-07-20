@@ -23,3 +23,8 @@
 .custom-popover .popover-body {
   padding: 0.8rem 1rem; /* ajusta a tu gusto */
 }
+
+.btn.btn-outline-secondary.btn-sm.w-100.h-100.rounded-0:focus-visible {
+  box-shadow: none;
+  border: none;
+}

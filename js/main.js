@@ -14,6 +14,7 @@ import { disableAltKeyGlobally } from "./helpers/disableAltKey.js";
 import { initFocus } from "./helpers/focusHelpers.js";
 import { textareaAutosize } from "./helpers/textareaAutosize.js";
 import { handleDownloadQuotationImg } from "./listeners/handleDownloadQuotationImg.js";
+import { handleSelectedProductSearch } from "./listeners/handleSelectedProductSearch.js";
 
 function main() {
   handleCreateProductBtnListener();
@@ -32,6 +33,7 @@ function main() {
   initFocus();
   textareaAutosize();
   handleDownloadQuotationImg();
+  handleSelectedProductSearch();
 }
 
 main();
