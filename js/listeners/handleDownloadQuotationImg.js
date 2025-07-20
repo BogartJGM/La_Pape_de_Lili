@@ -2,7 +2,7 @@ export function handleDownloadQuotationImg() {
   const imgLetterheadSrc = "assets/letterhead.png";
   const downloadImgBtn = document.getElementById("download-img-btn");
 
-  downloadImgBtn.addEventListener("click", () => {
+  downloadImgBtn.addEventListener("click", (e) => {
     // Validación de campos requeridos en el formulario de datos personales
     const form = document.getElementById('personal-data-form');
     if (form) {
