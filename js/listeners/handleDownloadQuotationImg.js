@@ -134,7 +134,7 @@ export function handleDownloadQuotationImg() {
           <br />
           <table class="prices-table">
             <tr class="default-gray r2">
-              <th class="price-concept">TOTAL</th>
+              <th class="price-concept" style="425">TOTAL</th>
               <td class="price-value" style="padding-right: 50px;">$${quotationData.totalCostHigh}</td>
               <td class="price-value" style="width: 245px; padding-right: 30px;">$${quotationData.totalCostEconomical}</td>
             </tr>

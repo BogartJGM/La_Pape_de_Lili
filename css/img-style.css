@@ -127,16 +127,17 @@ div#container .product td {
 div#container .price-concept {
   font-family: Marykate;
   font-weight: 100;
+  font-size: 3rem;
 }
 
 div#container .price-value {
   font-family: "Open Sans";
-  font-size: 12px;
+  font-size: 3rem;
 }
 
 div#container .discount {
   color: red;
-  font-size: 20px;
+  font-size: 3.5rem;
 }
 
 div#container .text-center {
@@ -177,7 +178,7 @@ div#container .price-value {
 }
 
 div#container .price-value.discount {
-  font-size: 18px;
+  font-size: 3.5rem;
   font-weight: 800;
 }
 
