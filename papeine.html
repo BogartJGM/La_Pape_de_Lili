@@ -99,6 +99,7 @@
       }
       .ctrlBox {
         min-width: 260px;
+        height: 200px;
       }
       .moveBtns {
         display: flex;
@@ -171,20 +172,16 @@
       <div class="box ctrlBox">
         <div class="mini sideLabel">Movimiento (1 mm por click)</div>
 
-        <div style="margin-bottom: 8px">
-          <strong class="small">Anverso</strong>
-        </div>
         <div class="moveBtns" style="margin-bottom: 6px">
+          <strong class="small">Anverso</strong>
           <button id="frontUp" class="btn">↑</button>
           <button id="frontLeft" class="btn">←</button>
           <button id="frontRight" class="btn">→</button>
           <button id="frontDown" class="btn">↓</button>
         </div>
 
-        <div style="margin-top: 6px; margin-bottom: 8px">
-          <strong class="small">Reverso</strong>
-        </div>
         <div class="moveBtns">
+          <strong class="small">Reverso</strong>
           <button id="backUp" class="btn">↑</button>
           <button id="backLeft" class="btn">←</button>
           <button id="backRight" class="btn">→</button>
@@ -194,10 +191,10 @@
 
       <div class="box ctrlBox">
         <div class="mini sideLabel">Recorte (cm, paso 0.1)</div>
-        <div style="font-size: 13px; margin-bottom: 6px">Anverso</div>
         <div
-          style="display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap"
+        style="display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap"
         >
+        <strong style="font-size: 13px; margin-bottom: 6px">Anverso</strong>
           <label class="mini"
             >Top
             <input
@@ -240,12 +237,10 @@
           >
         </div>
 
-        <div style="font-size: 13px; margin-bottom: 6px; margin-top: 8px">
-          Reverso
-        </div>
         <div style="display: flex; gap: 6px; flex-wrap: wrap">
+          <strong style="font-size: 13px; margin-bottom: 6px; margin-top: 8px">Reverso</strong>
           <label class="mini"
-            >Top
+          >Top
             <input
               id="backCropTop"
               type="number"
@@ -318,7 +313,7 @@
         if (pdf.numPages < 2)
           throw new Error("El PDF debe contener al menos 2 páginas.");
 
-        async function renderPageToCanvas(pageNum, scale = 2) {
+        async function renderPageToCanvas(pageNum, scale = 5) {
           const page = await pdf.getPage(pageNum);
           const viewport = page.getViewport({ scale });
           const canvas = document.createElement("canvas");
@@ -331,8 +326,8 @@
         }
 
         // renderizamos páginas
-        const p1 = await renderPageToCanvas(1, 2.0);
-        const p2 = await renderPageToCanvas(2, 2.0);
+        const p1 = await renderPageToCanvas(1, 5.0);
+        const p2 = await renderPageToCanvas(2, 5.0);
 
         // cortamos verticalmente: página1 -> izquierda; página2 -> derecha
         function cropHalf(canvas, keepLeft = true) {
