@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Papeine</title>
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          Arial;
+        background: #f6f7fb;
+        color: #111;
+        padding: 14px;
+      }
+      h1 {
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+      .controls {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+        align-items: center;
+      }
+      .box {
+        background: #fff;
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      }
+      #previewWrap {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      #preview {
+        border: 1px solid #ddd;
+        width: 408px;
+        height: 528px;
+        background: #fff;
+      }
+      .btn {
+        padding: 8px 10px;
+        border-radius: 6px;
+        border: 1px solid #bfc7d6;
+        background: #fff;
+        cursor: pointer;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .small {
+        font-size: 13px;
+      }
+      .rotGroup {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      label {
+        font-size: 13px;
+      }
+      #fileLabel {
+        display: inline-block;
+        padding: 8px 10px;
+        border: 1px dashed #bbb;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #fff;
+      }
+      #status {
+        font-size: 13px;
+        color: #666;
+        margin-left: 6px;
+      }
+      .deg {
+        width: 48px;
+        text-align: center;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      .mini {
+        font-size: 12px;
+      }
+      .controlsSection {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .ctrlBox {
+        min-width: 260px;
+      }
+      .moveBtns {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      input[type="number"] {
+        width: 80px;
+        padding: 6px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+      .sideLabel {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+      }
+      footer {
+        margin-top: 14px;
+        font-size: 13px;
+        color: #666;
+      }
+    </style>
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  </head>
+  <body>
+    <h1>Papeine</h1>
+
+    <div class="controls box">
+      <input
+        id="fileInput"
+        type="file"
+        accept="application/pdf"
+        style="display: none"
+      />
+      <label id="fileLabel" for="fileInput">Seleccionar PDF (2 páginas)</label>
+      <span id="status">Sin archivo</span>
+
+      <div
+        style="margin-left: auto; display: flex; gap: 8px; align-items: center"
+      >
+        <button id="downloadBtn" class="btn" disabled>
+          Descargar PDF final
+        </button>
+        <button id="resetBtn" class="btn">Restablecer</button>
+      </div>
+    </div>
+
+    <div class="controlsSection" style="margin-top: 10px">
+      <div class="box ctrlBox">
+        <div class="mini sideLabel">Rotación (paso 0.5°)</div>
+        <div class="rotGroup">
+          <strong class="small">Anverso</strong>
+          <button id="frontDec" class="btn small">◀ -0.5°</button>
+          <button id="frontInc" class="btn small">+0.5° ▶</button>
+          <input id="frontDeg" class="deg" type="text" readonly value="0.0°" />
+        </div>
+        <div class="rotGroup">
+          <strong class="small">Reverso</strong>
+          <button id="backDec" class="btn small">◀ -0.5°</button>
+          <button id="backInc" class="btn small">+0.5° ▶</button>
+          <input id="backDeg" class="deg" type="text" readonly value="0.0°" />
+        </div>
+      </div>
+
+      <div class="box ctrlBox">
+        <div class="mini sideLabel">Movimiento (1 mm por click)</div>
+
+        <div style="margin-bottom: 8px">
+          <strong class="small">Anverso</strong>
+        </div>
+        <div class="moveBtns" style="margin-bottom: 6px">
+          <button id="frontUp" class="btn">↑</button>
+          <button id="frontLeft" class="btn">←</button>
+          <button id="frontRight" class="btn">→</button>
+          <button id="frontDown" class="btn">↓</button>
+        </div>
+
+        <div style="margin-top: 6px; margin-bottom: 8px">
+          <strong class="small">Reverso</strong>
+        </div>
+        <div class="moveBtns">
+          <button id="backUp" class="btn">↑</button>
+          <button id="backLeft" class="btn">←</button>
+          <button id="backRight" class="btn">→</button>
+          <button id="backDown" class="btn">↓</button>
+        </div>
+      </div>
+
+      <div class="box ctrlBox">
+        <div class="mini sideLabel">Recorte (cm, paso 0.1)</div>
+        <div style="font-size: 13px; margin-bottom: 6px">Anverso</div>
+        <div
+          style="display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap"
+        >
+          <label class="mini"
+            >Top
+            <input
+              id="frontCropTop"
+              type="number"
+              step="0.1"
+              min="0"
+              value="0"
+            />cm</label
+          >
+          <label class="mini"
+            >Left
+            <input
+              id="frontCropLeft"
+              type="number"
+              step="0.1"
+              min="0"
+              value="0"
+            />cm</label
+          >
+          <label class="mini"
+            >Right
+            <input
+              id="frontCropRight"
+              type="number"
+              step="0.1"
+              min="0"
+              value="0"
+            />cm</label
+          >
+          <label class="mini"
+            >Bottom
+            <input
+              id="frontCropBottom"
+              type="number"
+              step="0.1"
+              min="0"
+              value="0"
+            />cm</label
+          >
+        </div>
+
+        <div style="font-size: 13px; margin-bottom: 6px; margin-top: 8px">
+          Reverso
+        </div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap">
+          <label class="mini"
+            >Top
+            <input
+              id="backCropTop"
+              type="number"
+              step="0.1"
+              min="0"
+              value="0"
+            />cm</label
+          >
+          <label class="mini"
+            >Left
+            <input
+              id="backCropLeft"
+              type="number"
+              step="0.1"
+              min="0"
+              value="0"
+            />cm</label
+          >
+          <label class="mini"
+            >Right
+            <input
+              id="backCropRight"
+              type="number"
+              step="0.1"
+              min="0"
+              value="0"
+            />cm</label
+          >
+          <label class="mini"
+            >Bottom
+            <input
+              id="backCropBottom"
+              type="number"
+              step="0.1"
+              min="0"
+              value="0"
+            />cm</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <div id="previewWrap" style="margin-top: 12px">
+      <div class="box">
+        <canvas id="preview" width="816" height="1056"></canvas>
+      </div>
+      <div style="min-width: 280px">
+        <div class="box">
+          <div style="font-size: 13px; color: #333; margin-bottom: 6px">
+            <strong>Estado</strong>
+          </div>
+          <div id="info" style="font-size: 13px; color: #555"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      /* Carga y procesa el PDF en canvas (mitad izquierda / mitad derecha) */
+      async function handleFileInput(file) {
+        const pdfjsLib =
+          window["pdfjs-dist/build/pdf"] ||
+          window["pdfjsLib"] ||
+          window.pdfjsLib;
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+
+        const arrayBuffer = await file.arrayBuffer();
+        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        const pdf = await loadingTask.promise;
+
+        if (pdf.numPages < 2)
+          throw new Error("El PDF debe contener al menos 2 páginas.");
+
+        async function renderPageToCanvas(pageNum, scale = 2) {
+          const page = await pdf.getPage(pageNum);
+          const viewport = page.getViewport({ scale });
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.round(viewport.width);
+          canvas.height = Math.round(viewport.height);
+          const ctx = canvas.getContext("2d", { alpha: false });
+          const renderContext = { canvasContext: ctx, viewport };
+          await page.render(renderContext).promise;
+          return { canvas, viewport };
+        }
+
+        // renderizamos páginas
+        const p1 = await renderPageToCanvas(1, 2.0);
+        const p2 = await renderPageToCanvas(2, 2.0);
+
+        // cortamos verticalmente: página1 -> izquierda; página2 -> derecha
+        function cropHalf(canvas, keepLeft = true) {
+          const w = canvas.width;
+          const h = canvas.height;
+          const halfW = Math.floor(w / 2);
+          const sx = keepLeft ? 0 : Math.floor(w / 2);
+          const out = document.createElement("canvas");
+          out.width = halfW;
+          out.height = h;
+          const ctx = out.getContext("2d", { alpha: false });
+          ctx.drawImage(canvas, sx, 0, halfW, h, 0, 0, halfW, h);
+          return out;
+        }
+
+        const frontHalf = cropHalf(p1.canvas, true);
+        const backHalf = cropHalf(p2.canvas, false);
+
+        // devolvemos canvases originales de cada mitad (sin recortar extra)
+        return { frontHalf, backHalf };
+      }
+
+      /* Dibuja la vista previa (aplica recorte y offset) */
+      async function renderPreview(state) {
+        const preview = document.getElementById("preview");
+        const ctx = preview.getContext("2d", { alpha: false });
+
+        // hoja carta en mm (constante del sistema)
+        const pageWmm = 215.9;
+        const pageHmm = 279.4;
+
+        // limpiamos
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, preview.width, preview.height);
+        ctx.strokeStyle = "#ddd";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(1, 1, preview.width - 2, preview.height - 2);
+
+        const W = preview.width;
+        const H = preview.height;
+        const targetW = Math.floor(W / 2);
+        const targetH = H;
+
+        const pxPerMmPreview = W / pageWmm; // px per mm en preview
+
+        function getCroppedFromSrc(srcCanvas, crop) {
+          // convertir cm -> mm
+          const cropMm = {
+            top: crop.top * 10,
+            left: crop.left * 10,
+            right: crop.right * 10,
+            bottom: crop.bottom * 10,
+          };
+
+          const halfWmm = pageWmm / 2;
+          const pxPerMmSrc = srcCanvas.width / halfWmm;
+
+          const leftPx = Math.round(cropMm.left * pxPerMmSrc);
+          const rightPx = Math.round(cropMm.right * pxPerMmSrc);
+          const topPx = Math.round(cropMm.top * pxPerMmSrc);
+          const bottomPx = Math.round(cropMm.bottom * pxPerMmSrc);
+
+          const outW = Math.max(1, srcCanvas.width - leftPx - rightPx);
+          const outH = Math.max(1, srcCanvas.height - topPx - bottomPx);
+
+          const out = document.createElement("canvas");
+          out.width = outW;
+          out.height = outH;
+
+          const c = out.getContext("2d", { alpha: false });
+          c.fillStyle = "#fff";
+          c.fillRect(0, 0, outW, outH);
+
+          c.drawImage(srcCanvas, leftPx, topPx, outW, outH, 0, 0, outW, outH);
+
+          return out;
+        }
+
+        function drawHalf(srcCanvas, x0, deg, offsetMm, crop) {
+          // crop applied to source
+          const cropped = getCroppedFromSrc(srcCanvas, crop);
+
+          const sx = cropped.width;
+          const sy = cropped.height;
+          const scale = Math.min(targetW / sx, targetH / sy);
+          const drawW = sx * scale;
+          const drawH = sy * scale;
+
+          // convert offset mm -> px in preview coordinate system
+          const offsetPxX = Math.round(offsetMm.x * pxPerMmPreview);
+          const offsetPxY = Math.round(offsetMm.y * pxPerMmPreview);
+
+          const cx = x0 + targetW / 2 + offsetPxX;
+          const cy = targetH / 2 + offsetPxY;
+          const rad = (deg * Math.PI) / 180;
+
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.rotate(rad);
+          ctx.drawImage(cropped, -drawW / 2, -drawH / 2, drawW, drawH);
+          ctx.restore();
+
+          // contorno sutil del recorte
+          ctx.strokeStyle = "#bbb";
+          ctx.lineWidth = 1;
+          ctx.strokeRect(x0 + 2, 2, targetW - 4, targetH - 4);
+        }
+
+        // dibuja front y back con sus offsets/rotaciones/recortes
+        drawHalf(
+          state.frontSrc,
+          0,
+          state.frontDeg,
+          state.frontOffset,
+          state.frontCrop,
+        );
+        drawHalf(
+          state.backSrc,
+          targetW,
+          state.backDeg,
+          state.backOffset,
+          state.backCrop,
+        );
+
+        // actualiza info textual
+        const info = document.getElementById("info");
+        info.innerHTML = `
+    <div><strong>Anverso</strong> — rot ${state.frontDeg.toFixed(1)}°, offset ${state.frontOffset.x}mm,${state.frontOffset.y}mm, crop T${state.frontCrop.top} L${state.frontCrop.left} R${state.frontCrop.right} B${state.frontCrop.bottom} cm</div>
+    <div style="margin-top:6px;"><strong>Reverso</strong> — rot ${state.backDeg.toFixed(1)}°, offset ${state.backOffset.x}mm,${state.backOffset.y}mm, crop T${state.backCrop.top} L${state.backCrop.left} R${state.backCrop.right} B${state.backCrop.bottom} cm</div>
+  `;
+      }
+
+      /* Genera y descarga el PDF final aplicando recorte, offset y rotación */
+      async function generatePDFandDownload(state) {
+        const { jsPDF } = window.jspdf;
+        const pageWmm = 215.9;
+        const pageHmm = 279.4;
+        const pdf = new jsPDF({
+          unit: "mm",
+          format: [pageWmm, pageHmm],
+          orientation: "portrait",
+        });
+
+        const DPI = 150;
+        const pxPerMmPdf = DPI / 25.4;
+        const halfWmm = pageWmm / 2;
+        const targetPxW = Math.round(halfWmm * pxPerMmPdf);
+        const targetPxH = Math.round(pageHmm * pxPerMmPdf);
+
+        // convierte recorte en mm -> px en fuente
+        function getCroppedForPdf(srcCanvas, cropCm) {
+          const cropMm = {
+            top: cropCm.top * 10,
+            left: cropCm.left * 10,
+            right: cropCm.right * 10,
+            bottom: cropCm.bottom * 10,
+          };
+          const halfWmm = pageWmm / 2;
+          const pxPerMmSrc = srcCanvas.width / halfWmm;
+          const lpx = Math.round(cropMm.left * pxPerMmSrc);
+          const rpx = Math.round(cropMm.right * pxPerMmSrc);
+          const tpx = Math.round(cropMm.top * pxPerMmSrc);
+          const bpx = Math.round(cropMm.bottom * pxPerMmSrc);
+          const outW = Math.max(1, srcCanvas.width - lpx - rpx);
+          const outH = Math.max(1, srcCanvas.height - tpx - bpx);
+          const out = document.createElement("canvas");
+          out.width = outW;
+          out.height = outH;
+          const c = out.getContext("2d", { alpha: false });
+          c.fillStyle = "#fff";
+          c.fillRect(0, 0, outW, outH);
+          c.drawImage(srcCanvas, lpx, tpx, outW, outH, 0, 0, outW, outH);
+          return out;
+        }
+
+        function makeFinalCanvasForPdf(srcCanvas, cropCm, deg, offsetMm) {
+          const cropped = getCroppedForPdf(srcCanvas, cropCm);
+          // escala y encaja en targetPxW/targetPxH manteniendo aspecto
+          const sx = cropped.width;
+          const sy = cropped.height;
+          const scale = Math.min(targetPxW / sx, targetPxH / sy);
+          const drawW = sx * scale;
+          const drawH = sy * scale;
+
+          const out = document.createElement("canvas");
+          out.width = targetPxW;
+          out.height = targetPxH;
+          const ctx = out.getContext("2d", { alpha: false });
+          ctx.fillStyle = "#fff";
+          ctx.fillRect(0, 0, out.width, out.height);
+
+          // convertir offset mm -> px en canvas destino (pdf raster)
+          const offsetPxX = Math.round(offsetMm.x * pxPerMmPdf);
+          const offsetPxY = Math.round(offsetMm.y * pxPerMmPdf);
+
+          ctx.save();
+          ctx.translate(out.width / 2 + offsetPxX, out.height / 2 + offsetPxY);
+          ctx.rotate((deg * Math.PI) / 180);
+          ctx.drawImage(cropped, -drawW / 2, -drawH / 2, drawW, drawH);
+          ctx.restore();
+
+          return out;
+        }
+
+        const frontCanvasPdf = makeFinalCanvasForPdf(
+          state.frontSrc,
+          state.frontCrop,
+          state.frontDeg,
+          state.frontOffset,
+        );
+        const backCanvasPdf = makeFinalCanvasForPdf(
+          state.backSrc,
+          state.backCrop,
+          state.backDeg,
+          state.backOffset,
+        );
+
+        const frontData = frontCanvasPdf.toDataURL("image/jpeg", 0.95);
+        const backData = backCanvasPdf.toDataURL("image/jpeg", 0.95);
+
+        pdf.addImage(frontData, "JPEG", 0, 0, halfWmm, pageHmm);
+        pdf.addImage(backData, "JPEG", halfWmm, 0, halfWmm, pageHmm);
+
+        pdf.save("credencial_unida.pdf");
+      }
+
+      /* ---------- Lógica UI central: listeners y estado ---------- */
+      (function main() {
+        const pageWmm = 215.9;
+        const fileInput = document.getElementById("fileInput");
+        const status = document.getElementById("status");
+        const downloadBtn = document.getElementById("downloadBtn");
+        const resetBtn = document.getElementById("resetBtn");
+
+        // rotation controls
+        const frontInc = document.getElementById("frontInc");
+        const frontDec = document.getElementById("frontDec");
+        const backInc = document.getElementById("backInc");
+        const backDec = document.getElementById("backDec");
+
+        const frontDegLabel = document.getElementById("frontDeg");
+        const backDegLabel = document.getElementById("backDeg");
+
+        // move controls
+        const frontUp = document.getElementById("frontUp");
+        const frontDown = document.getElementById("frontDown");
+        const frontLeft = document.getElementById("frontLeft");
+        const frontRight = document.getElementById("frontRight");
+        const backUp = document.getElementById("backUp");
+        const backDown = document.getElementById("backDown");
+        const backLeft = document.getElementById("backLeft");
+        const backRight = document.getElementById("backRight");
+
+        // crop inputs (cm)
+        const frontCropTop = document.getElementById("frontCropTop");
+        const frontCropLeft = document.getElementById("frontCropLeft");
+        const frontCropRight = document.getElementById("frontCropRight");
+        const frontCropBottom = document.getElementById("frontCropBottom");
+        const backCropTop = document.getElementById("backCropTop");
+        const backCropLeft = document.getElementById("backCropLeft");
+        const backCropRight = document.getElementById("backCropRight");
+        const backCropBottom = document.getElementById("backCropBottom");
+
+        // estado central
+        let state = {
+          frontSrc: null, // canvas original de la mitad (sin recortes adicionales)
+          backSrc: null,
+          frontDeg: 0.0,
+          backDeg: 0.0,
+          // offsets en mm (positivo -> derecha / abajo)
+          frontOffset: { x: 0, y: 0 },
+          backOffset: { x: 0, y: 0 },
+          // crop en cm (para mostrar y para aplicar)
+          frontCrop: { top: 0, left: 0, right: 0, bottom: 0 },
+          backCrop: { top: 0, left: 0, right: 0, bottom: 0 },
+        };
+
+        // helper: refresca UI y preview
+        async function refreshAll() {
+          frontDegLabel.value = state.frontDeg.toFixed(1) + "°";
+          backDegLabel.value = state.backDeg.toFixed(1) + "°";
+          // sincronizar inputs de crop
+          frontCropTop.value = state.frontCrop.top;
+          frontCropLeft.value = state.frontCrop.left;
+          frontCropRight.value = state.frontCrop.right;
+          frontCropBottom.value = state.frontCrop.bottom;
+          backCropTop.value = state.backCrop.top;
+          backCropLeft.value = state.backCrop.left;
+          backCropRight.value = state.backCrop.right;
+          backCropBottom.value = state.backCrop.bottom;
+
+          if (state.frontSrc && state.backSrc) {
+            await renderPreview(state);
+            downloadBtn.disabled = false;
+            status.textContent = "Listo";
+          } else {
+            // limpiar preview
+            const preview = document.getElementById("preview");
+            const ctx = preview.getContext("2d", { alpha: false });
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(0, 0, preview.width, preview.height);
+            downloadBtn.disabled = true;
+            status.textContent = "Sin archivo";
+            document.getElementById("info").innerHTML = "";
+          }
+        }
+
+        // carga de archivo
+        fileInput.addEventListener("change", async (e) => {
+          const f = e.target.files[0];
+          if (!f) return;
+          status.textContent = "Cargando...";
+          try {
+            const { frontHalf, backHalf } = await handleFileInput(f);
+            state.frontSrc = frontHalf;
+            state.backSrc = backHalf;
+            // resetear transformaciones al cargar
+            state.frontDeg = 0;
+            state.backDeg = 0;
+            state.frontOffset = { x: 0, y: 0 };
+            state.backOffset = { x: 0, y: 0 };
+            state.frontCrop = { top: 0, left: 0, right: 0, bottom: 0 };
+            state.backCrop = { top: 0, left: 0, right: 0, bottom: 0 };
+            await refreshAll();
+            status.textContent = `Archivo: ${f.name}`;
+          } catch (err) {
+            console.error(err);
+            alert("Error procesando PDF: " + (err.message || err));
+            status.textContent = "Error";
+          }
+        });
+
+        // rotaciones
+        frontInc.addEventListener("click", async () => {
+          state.frontDeg = +(state.frontDeg + 0.5).toFixed(1);
+          await refreshAll();
+        });
+        frontDec.addEventListener("click", async () => {
+          state.frontDeg = +(state.frontDeg - 0.5).toFixed(1);
+          await refreshAll();
+        });
+        backInc.addEventListener("click", async () => {
+          state.backDeg = +(state.backDeg + 0.5).toFixed(1);
+          await refreshAll();
+        });
+        backDec.addEventListener("click", async () => {
+          state.backDeg = +(state.backDeg - 0.5).toFixed(1);
+          await refreshAll();
+        });
+
+        // movimientos (1 mm por click)
+        const moveStep = 1; // mm
+        frontUp.addEventListener("click", async () => {
+          state.frontOffset.y -= moveStep;
+          await refreshAll();
+        });
+        frontDown.addEventListener("click", async () => {
+          state.frontOffset.y += moveStep;
+          await refreshAll();
+        });
+        frontLeft.addEventListener("click", async () => {
+          state.frontOffset.x -= moveStep;
+          await refreshAll();
+        });
+        frontRight.addEventListener("click", async () => {
+          state.frontOffset.x += moveStep;
+          await refreshAll();
+        });
+
+        backUp.addEventListener("click", async () => {
+          state.backOffset.y -= moveStep;
+          await refreshAll();
+        });
+        backDown.addEventListener("click", async () => {
+          state.backOffset.y += moveStep;
+          await refreshAll();
+        });
+        backLeft.addEventListener("click", async () => {
+          state.backOffset.x -= moveStep;
+          await refreshAll();
+        });
+        backRight.addEventListener("click", async () => {
+          state.backOffset.x += moveStep;
+          await refreshAll();
+        });
+
+        // recorte (inputs en cm) -> actualizar estado y preview
+        function updateCropFromInputs() {
+          state.frontCrop.top = Math.max(
+            0,
+            parseFloat(frontCropTop.value || 0),
+          );
+          state.frontCrop.left = Math.max(
+            0,
+            parseFloat(frontCropLeft.value || 0),
+          );
+          state.frontCrop.right = Math.max(
+            0,
+            parseFloat(frontCropRight.value || 0),
+          );
+          state.frontCrop.bottom = Math.max(
+            0,
+            parseFloat(frontCropBottom.value || 0),
+          );
+          state.backCrop.top = Math.max(0, parseFloat(backCropTop.value || 0));
+          state.backCrop.left = Math.max(
+            0,
+            parseFloat(backCropLeft.value || 0),
+          );
+          state.backCrop.right = Math.max(
+            0,
+            parseFloat(backCropRight.value || 0),
+          );
+          state.backCrop.bottom = Math.max(
+            0,
+            parseFloat(backCropBottom.value || 0),
+          );
+        }
+        [
+          frontCropTop,
+          frontCropLeft,
+          frontCropRight,
+          frontCropBottom,
+          backCropTop,
+          backCropLeft,
+          backCropRight,
+          backCropBottom,
+        ].forEach((inp) => {
+          inp.addEventListener("input", async () => {
+            updateCropFromInputs();
+            await refreshAll();
+          });
+        });
+
+        // download
+        downloadBtn.addEventListener("click", async () => {
+          if (!state.frontSrc || !state.backSrc)
+            return alert("Carga primero un PDF válido de 2 páginas.");
+          downloadBtn.disabled = true;
+          downloadBtn.textContent = "Generando...";
+          try {
+            await generatePDFandDownload(state);
+          } catch (err) {
+            console.error(err);
+            alert("Error generando PDF: " + (err.message || err));
+          } finally {
+            downloadBtn.textContent = "Descargar PDF final";
+            downloadBtn.disabled = false;
+          }
+        });
+
+        // reset
+        resetBtn.addEventListener("click", async () => {
+          fileInput.value = "";
+          state.frontSrc = null;
+          state.backSrc = null;
+          state.frontDeg = 0;
+          state.backDeg = 0;
+          state.frontOffset = { x: 0, y: 0 };
+          state.backOffset = { x: 0, y: 0 };
+          state.frontCrop = { top: 0, left: 0, right: 0, bottom: 0 };
+          state.backCrop = { top: 0, left: 0, right: 0, bottom: 0 };
+          await refreshAll();
+        });
+
+        // inicial
+        refreshAll();
+      })();
+    </script>
+  </body>
+</html>
